@@ -1,0 +1,60 @@
+/build
+/node_modules
+package-lock.json
+/build
+.eslintcache
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# testing
+/coverage
+
+# production
+/build
+.env
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# Optional eslint cache
+.eslintcache
+
+# Dependency directories
+node_modules/
+jspm_packages/
+sessions/
+
+# next.js build output
+.next
+
+# public
+
+# uploads folder
+# public/uploads 

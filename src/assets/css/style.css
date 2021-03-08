@@ -1,0 +1,114 @@
+/* Color code : #f7931e  #0f367c  #da1f3d   , #ffe8db */
+
+:root {
+    --main-color-one: #0f367c;
+    --main-color-two: #0f367c;
+    --main-color-three: #da1f3d;
+    --main-color-four: #ffe8da;
+    --main-color-five: #f7931e;
+    --heading-color: #071C55;
+    --paragraph-color: #666;
+    /* --main-color-one: #F3941E;
+  --main-color-two: #071C55;
+  --heading-color: #071C55;
+  --paragraph-color: #666; */
+    --heading-font: 'Playfair Display', serif;
+    --body-font: 'Poppins', sans-serif;
+    --body-font-size: 15px;
+    --body-font-width: 400;
+    --body-line-height: 32px;
+}
+
+body {
+    background-color: #0f367c !important;
+}
+
+.nav-tabs {
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    margin: 10px !important;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-tabs .nav-item a:hover {
+    color: var(--main-color-five);
+}
+
+.preview img {
+    max-width: 100px;
+}
+
+.multi-preview {
+    overflow: scroll;
+    height: 300px;
+    display: flex;
+}
+
+.multi-preview img {
+    width: 200px;
+    height: 200px;
+    max-width: 500px;
+    padding: 4px;
+}
+
+.dropzone {
+    height: 300px;
+    text-align: center;
+    padding: 5%;
+}
+
+.image-item {
+    display: flex;
+    margin: 10px 0;
+}
+
+.image-item__btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.action {
+
+z-index: -400;
+
+}
+
+.action a {
+    margin-left: 10px;
+    border-bottom: 2px solid var(--main-color-four);
+}
+
+.action a:hover {
+    border-bottom: 5px solid var(--main-color-five);
+}
+
+table tr td{
+    font-size: 15px;
+}
+
+
+/* confirmation box */
+.confirmation-box {
+    width: 400px;
+    padding: 30px;
+    text-align: left;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 20px 75px rgba(0, 0, 0, 0.13);
+    color: #666;
+  }
+  
+  /* confirmation box for module block*/
+  .confirmation-box-module {
+    width: 1000px;
+    padding: 30px;
+    text-align: left;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 20px 75px rgba(0, 0, 0, 0.13);
+    color: #666;
+    height: 35em;
+    overflow: auto;
+  }
