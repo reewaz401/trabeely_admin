@@ -104,7 +104,7 @@ const Sidebar = (props) => {
             <img
               alt={logo.imgAlt}
               className="navbar-brand-img"
-              src={`${process.env.PUBLIC_URL}/res/img/beelogo.png`}
+              src={`${process.env.PUBLIC_URL}/res/img/logo30.png`}
             />
             {/* <h4>TRABEELY-ADMIN</h4> */}
           </NavbarBrand>
@@ -132,7 +132,7 @@ const Sidebar = (props) => {
                 <span className="avatar avatar-sm rounded-circle">
                   <img
                     alt="..."
-                    src={`${process.env.PUBLIC_URL}/res/img/logo7.png`}
+                    src={`${process.env.PUBLIC_URL}/res/img/logo29.png`}
                   />
                 </span>
               </Media>
@@ -178,10 +178,10 @@ const Sidebar = (props) => {
                     </Link>
 
                   ) : (
-                      <a href={logo.outterLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
-                      </a>
-                    )}
+                    <a href={logo.outterLink}>
+                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                    </a>
+                  )}
                 </Col>
               ) : null}
               <Col className="collapse-close" xs="6">

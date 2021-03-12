@@ -12,7 +12,7 @@ import moment from 'moment'
 import 'moment-precise-range-plugin';
 import { HotelContext } from 'contexts/HotelContext'
 
-function PackageDetails() {
+function HotelDetails() {
     const { addToast } = useToasts()
     const {hotels} = useContext(HotelContext);
     // const [hotels, setHotels] = useState([])
@@ -113,4 +113,4 @@ function PackageDetails() {
     )
 }
 
-export default PackageDetails
+export default HotelDetails

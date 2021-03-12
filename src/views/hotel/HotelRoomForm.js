@@ -12,7 +12,6 @@ import { useToasts } from 'react-toast-notifications'
 import ImageUploading from "react-images-uploading";
 import Select from 'react-select'
 import { HotelContext } from '../../contexts/HotelContext'
-import { PackagesContext } from 'contexts/AgentPackageContext';
 import { ROOM_TYPE } from '../../MultipleOption'
 const ValidationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),

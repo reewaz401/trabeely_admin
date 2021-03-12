@@ -12729,7 +12729,7 @@ a.bg-lighter:hover, a.bg-lighter:focus, button.bg-lighter:hover, button.bg-light
 }
 
 .bg-gradient-info {
-    background: linear-gradient(87deg, #11cdef 0, #1171ef 100%) !important
+    background: linear-gradient(87deg,  #f7931e 0, #1171ef 100%) !important
 }
 
 .bg-gradient-warning {
@@ -12973,7 +12973,7 @@ a.section-darker:hover, a.section-darker:focus, button.section-darker:hover, but
 }
 
 .bg-gradient-info {
-    background: linear-gradient(87deg, #11cdef 0, #1171ef 100%) !important
+    background: linear-gradient(87deg,   #f7931e 0, #1171ef 100%) !important
 }
 
 .bg-gradient-warning {
@@ -15794,7 +15794,7 @@ textarea[resize="horizontal"] {
 }
 
 .navbar-horizontal .navbar-brand img {
-    height: 30px
+    height: 90px
 }
 
 .navbar-horizontal .navbar-dark .navbar-brand {

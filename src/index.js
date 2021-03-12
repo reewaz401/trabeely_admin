@@ -17,25 +17,28 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import HotelContextProvider from "contexts/HotelContext";
 import RestaurantContextProvider from "contexts/AgentRestaurantContext";
+import PreloaderContextProvider from "contexts/PreLoaderContext";
 // import PreloaderContextProvider from './contexts/Preloader'
 ReactDOM.render(
-  <PackagesContextProvider>
-    <HotelContextProvider>
-      <RestaurantContextProvider>
-        <AuthContextProvider>
-          <ToastProvider placement='top-center' autoDismissTimeout='3000'>
-            <BrowserRouter>
-              <Switch>
-                <Route path="/app" render={(props) => <AdminLayout {...props} />} />
-                <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-                <Redirect from="/" to="/auth/login" />
-              </Switch>
-            </BrowserRouter>
-          </ToastProvider>
-        </AuthContextProvider>
-      </RestaurantContextProvider>
-    </HotelContextProvider>
-  </PackagesContextProvider>
+  <PreloaderContextProvider>
+    <PackagesContextProvider>
+      <HotelContextProvider>
+        <RestaurantContextProvider>
+          <AuthContextProvider>
+            <ToastProvider placement='top-center' autoDismissTimeout='3000'>
+              <BrowserRouter>
+                <Switch>
+                  <Route path="/app" render={(props) => <AdminLayout {...props} />} />
+                  <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+                  <Redirect from="/" to="/auth/login" />
+                </Switch>
+              </BrowserRouter>
+            </ToastProvider>
+          </AuthContextProvider>
+        </RestaurantContextProvider>
+      </HotelContextProvider>
+    </PackagesContextProvider>
+  </PreloaderContextProvider>
   ,
   document.getElementById("root")
 );

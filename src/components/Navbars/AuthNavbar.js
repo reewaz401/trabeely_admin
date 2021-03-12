@@ -5,9 +5,6 @@ import {
   UncontrolledCollapse,
   NavbarBrand,
   Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container,
   Row,
   Col,
@@ -21,7 +18,7 @@ const AdminNavbar = () => {
           <NavbarBrand to="/" tag={Link}>
             <img
               alt="..."
-              src={`${process.env.PUBLIC_URL}/res/img/logo7.png`}
+              src={`${process.env.PUBLIC_URL}/res/img/logo29.png`}
             />
           </NavbarBrand>
           <button className="navbar-toggler" id="navbar-collapse-main">
@@ -34,7 +31,7 @@ const AdminNavbar = () => {
                   <Link to="/">
                     <img
                       alt="..."
-                      src={`${process.env.PUBLIC_URL}/res/img/logo7.png`}
+                      src={`${process.env.PUBLIC_URL}/res/img/logo30.png`}
                     />
                   </Link>
                 </Col>
@@ -46,25 +43,6 @@ const AdminNavbar = () => {
                 </Col>
               </Row>
             </div>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to="/auth/register"
-                  tag={Link}
-                >
-                  <i className="ni ni-circle-08" />
-                  <span className="nav-link-inner--text">Register</span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink className="nav-link-icon" to="/auth/login" tag={Link}>
-                  <i className="ni ni-key-25" />
-                  <span className="nav-link-inner--text">Login</span>
-                </NavLink>
-              </NavItem>
-            
-            </Nav>
           </UncontrolledCollapse>
         </Container>
       </Navbar>

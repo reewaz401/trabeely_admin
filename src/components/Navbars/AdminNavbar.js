@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
@@ -18,23 +18,23 @@ import {
   Media,
 } from "reactstrap";
 import axios from '../../services/axios'
-import {LOGOUT_API} from '../../services/api_url'
+import { LOGOUT_API } from '../../services/api_url'
 import { AuthContext } from '../../contexts/UserAuthentication'
 const AdminNavbar = (props) => {
   const { isAuthenticated, authUser } = useContext(AuthContext)
 
-  const onLogout = async e=>{
+  const onLogout = async e => {
     e.preventDefault()
-      try {
-        let result = await axios.post(LOGOUT_API)
-        if (result.data.success) {
-          window.location.replace('/')
-          localStorage.removeItem('_token')
-          localStorage.removeItem('_auth')
-        }
-      } catch (error) {
-       alert("Logout Failed");
+    try {
+      let result = await axios.post(LOGOUT_API)
+      if (result.data.success) {
+        window.location.replace('/')
+        localStorage.removeItem('_token')
+        localStorage.removeItem('_auth')
       }
+    } catch (error) {
+      alert("Logout Failed");
+    }
   }
   return (
     <>
@@ -51,13 +51,11 @@ const AdminNavbar = (props) => {
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
-                    <img
+                    {/* //use profile */}
+                    {/* <img
                       alt="..."
-                      src={
-                        require("../../assets/img/theme/team-4-800x800.jpg")
-                          .default
-                      }
-                    />
+                      src={`${process.env.PUBLIC_URL}/res/img/logo29.png`}
+                    /> */}
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">

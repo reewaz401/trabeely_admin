@@ -1,12 +1,11 @@
 
-import React from "react";
+import React,{useContext} from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
-import { Container } from "reactstrap";
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
+import {AuthContext} from '../contexts/UserAuthentication'
 
 import routes from "routes.js";
 import ProtectedRoute from "ProtectedRoute";
@@ -18,6 +17,7 @@ import ClubDetails from "views/club/ClubDetails";
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
+  const {authUser} = useContext(AuthContext)
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;

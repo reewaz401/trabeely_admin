@@ -45,11 +45,8 @@ const Auth = (props) => {
           <Container>
             <div className="header-body text-center mb-7">
               <Row className="justify-content-center">
-                <Col lg="5" md="6">
+                <Col  md="12">
                   <h1 className="text-white">Authentication (Restaurant/Hotel/Tour/Travel)</h1>
-                  {/* <p className="text-lead text-light">
-                    Login for agent authorization
-                  </p> */}
                 </Col>
               </Row>
             </div>

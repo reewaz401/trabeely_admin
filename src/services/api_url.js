@@ -28,11 +28,21 @@ module.exports = {
     AGENT_CLUB_API:BASE_URI+"/club/agent-club",
     CLUB_DELETE_API:BASE_URI+"/delete/",//{id}
     CLUB_ALL_API: BASE_URI + "/club",
-
+    
     //GALLERY
     GALLERY_ADD_API:BASE_URI+"/gallery/add-gallery",
     AGENT_GALLERY_API:BASE_URI+"/gallery/agent-gallery",
     GALLERY_DELETE_API:BASE_URI+"/delete/",//{id}
     GALLERY_ALL_API: BASE_URI + "/gallery",
+    
+    
+    //Admin Work
+    //Business
+    PRE_REGISTER_GET:BASE_URI+"/auth/business-detail",
+    APPROVE_PRE_REGISTER:BASE_URI+"/auth/approve-business/", //{id}
+    //Users
+    USERS_GET:BASE_URI+"/users",
+    USER_DELETE_API:BASE_URI+"/users/delete/",//{id}
+    USER_UPDATE_API:BASE_URI+"/users/update"
 
 }
