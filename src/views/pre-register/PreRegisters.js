@@ -79,7 +79,7 @@ function PreRegisters() {
     };
     const defaultSorted = [{
         dataField: 'createdAt',
-        order: 'desc'
+        order: 'desc' 
     }];
     const statusFormat = (cell, row, rowIndex, formatExtraData) => {
         return <div >
@@ -87,7 +87,7 @@ function PreRegisters() {
         </div>
     }
     const columns = [
-        { dataField: 'fullName', text: 'Name', },
+        { dataField: 'fullName',text: 'Name', },
         { dataField: 'businessName', text: 'Business'},
         { dataField: 'address', text: 'Address' },
         { dataField: 'email', text: 'Email' },
