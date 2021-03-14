@@ -78,8 +78,8 @@ function PreRegisters() {
         );
     };
     const defaultSorted = [{
-        dataField: 'fullName',
-        order: 'asc'
+        dataField: 'createdAt',
+        order: 'desc'
     }];
     const statusFormat = (cell, row, rowIndex, formatExtraData) => {
         return <div >
@@ -87,14 +87,14 @@ function PreRegisters() {
         </div>
     }
     const columns = [
-        { dataField: 'fullName', text: 'Name' },
+        { dataField: 'fullName', text: 'Name', },
         { dataField: 'businessName', text: 'Business'},
         { dataField: 'address', text: 'Address' },
         { dataField: 'email', text: 'Email' },
         { dataField: 'contact', text: 'Contact' },
         { dataField: 'businessFor', text: 'Approach' },
-        { dataField: 'about', text: 'About' },
-        { dataField: 'createdAt', text: 'Date',formatter:(cell,row)=>{return <span >{moment(row.createdAt).format("dddd, MMMM Do YYYY")}</span>}},
+        { dataField: 'other', text: 'Other' },
+        { dataField: 'createdAt',sort:defaultSorted, text: 'Date',formatter:(cell,row)=>{return <span >{moment(row.createdAt).format("dddd, MMMM Do YYYY")}</span>}},
         { dataField: 'status', text: 'Approval', formatter: statusFormat },
         { dataField: 'Action', text: 'Action', formatter: onApproveAction },
     ];
