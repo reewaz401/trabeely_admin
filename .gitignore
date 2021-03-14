@@ -14,10 +14,6 @@ package-lock.json
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
 # testing
 /coverage
 
@@ -51,8 +47,6 @@ node_modules/
 jspm_packages/
 sessions/
 
-# next.js build output
-.next
 
 # public
 
