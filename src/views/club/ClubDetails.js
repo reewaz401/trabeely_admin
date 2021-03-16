@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useContext } from 'react'
 
 import axios from '../../services/axios'
-import { HOTEL_ALL_API,HOTEL_DELETE_API } from '../../services/api_url'
+import { CLUB_DELETE_API } from '../../services/api_url'
 import DataTable from 'components/Datatable/DataTable'
 import { Card, CardBody, Button } from 'reactstrap'
 import { textFilter } from 'react-bootstrap-table2-filter';
 import NoActionBanner from 'components/Headers/NoActionBanner'
 import { useToasts } from 'react-toast-notifications'
 import { confirmAlert } from "react-confirm-alert";
+import { ClubContext } from 'contexts/AgentClubContext'
 
 function ClubDetails() {
     const { addToast } = useToasts()
-    const [hotels, setHotels] = useState([])
+    const {clubs} = useContext(ClubContext);
     const confirmDelete = (_id, title) => {
         confirmAlert({
             customUI: ({ onClose }) => {
@@ -35,26 +36,17 @@ function ClubDetails() {
         });
     };
 
-    // get all Packages
-    const getAllHotels = async () => {
-        try {
-            let result = await axios.get(HOTEL_ALL_API)
-            if (result.data.success) {
-                setHotels(result.data.data)
-            }
-        } catch (error) {
-            alert("data fetching error")
-        }
-    }
     // delete selected Packages
     const onDeleteAction = async (id) => {
         try {
-            let result = await axios.delete(HOTEL_DELETE_API + id)
+            let result = await axios.delete(CLUB_DELETE_API + id)
             if (result.data.success) {
                 addToast(result.data.message, {
                     appearance: "success",
                     autoDismiss: true,
                 });
+                window.location.reload();
+
             }
         } catch (error) {
             addToast("Delete failed. Please try again", {
@@ -74,7 +66,7 @@ function ClubDetails() {
         );
     };
     const defaultSorted = [{
-        dataField: 'name',
+        dataField: 'createdAt',
         order: 'desc'
     }];
     const columns = [
@@ -84,15 +76,13 @@ function ClubDetails() {
         { dataField: 'contact', text: 'Contact',filter: textFilter() },
         { dataField: 'Action', text: 'Action', formatter: deleteAction },
     ];
-    useEffect(() => {
-        getAllHotels()
-    }, [])
+ 
     return (
         <>
             <NoActionBanner />
             <Card className="bg-secondary shadow mb-">
                 <CardBody>
-                    <DataTable columns={columns} data={hotels} defaultSorted={defaultSorted} />
+                    <DataTable columns={columns} data={clubs} defaultSorted={defaultSorted} />
                 </CardBody>
             </Card>
         </>

@@ -15,26 +15,25 @@ module.exports = {
     HOTEL_ADD_API:BASE_URI+"/hotels/add-hotel",
     HOTEL_ROOM_ADD_API:BASE_URI+"/hotels/add-room",
     AGENT_HOTEL_API:BASE_URI+"/hotels/agent-hotel",
-    HOTEL_DELETE_API:BASE_URI+"/delete/",//{id}
+    HOTEL_DELETE_API:BASE_URI+"/hotels/delete/",//{id}
     HOTEL_ALL_API: BASE_URI + "/hotels",
     //Restaurant
     RESTAURANT_ADD_API:BASE_URI+"/restaurants/add-restaurant",
     FOOD_ADD_API:BASE_URI+"/foods/add-food",
     AGENT_RESTAURANT_API:BASE_URI+"/restaurants/agent-restaurant",
-    RESTAURANT_DELETE_API:BASE_URI+"/delete/",//{id}
+    RESTAURANT_DELETE_API:BASE_URI+"/restaurants/delete/",//{id}
     RESTAURANT_ALL_API: BASE_URI + "/restaurants",
     //Club
     CLUB_ADD_API:BASE_URI+"/club/add-club",
     AGENT_CLUB_API:BASE_URI+"/club/agent-club",
-    CLUB_DELETE_API:BASE_URI+"/delete/",//{id}
+    CLUB_DELETE_API:BASE_URI+"/club/delete/",//{id}
     CLUB_ALL_API: BASE_URI + "/club",
     
     //GALLERY
     GALLERY_ADD_API:BASE_URI+"/gallery/add-gallery",
     AGENT_GALLERY_API:BASE_URI+"/gallery/agent-gallery",
-    GALLERY_DELETE_API:BASE_URI+"/delete/",//{id}
+    GALLERY_DELETE_API:BASE_URI+"/gallery/delete/",//{id}
     GALLERY_ALL_API: BASE_URI + "/gallery",
-    
     
     //Admin Work
     //Business
@@ -42,6 +41,7 @@ module.exports = {
     APPROVE_PRE_REGISTER:BASE_URI+"/auth/approve-business/", //{id}
     //Users
     USERS_GET:BASE_URI+"/users",
+    USERS_ADD_API:BASE_URI+"/users/user-add",
     USER_DELETE_API:BASE_URI+"/users/delete/",//{id}
     USER_UPDATE_API:BASE_URI+"/users/update"
 

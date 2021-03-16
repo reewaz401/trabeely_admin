@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 
 import axios from '../../services/axios'
 import { PACKAGE_ALL_API, PACKAGE_DELETE_API } from '../../services/api_url'
@@ -10,10 +10,12 @@ import { useToasts } from 'react-toast-notifications'
 import { confirmAlert } from "react-confirm-alert";
 import moment from 'moment'
 import 'moment-precise-range-plugin';
+import { PackagesContext } from 'contexts/AgentPackageContext'
 
 function PackageDetails() {
     const { addToast } = useToasts()
-    const [packages, setPackages] = useState([])
+    // const [packages, setPackages] = useState([])
+    const {packages} = useContext(PackagesContext)
     const confirmDelete = (_id, title) => {
         confirmAlert({
             customUI: ({ onClose }) => {
@@ -37,17 +39,17 @@ function PackageDetails() {
         });
     };
 
-    // get all Packages
-    const getAllPackages = async () => {
-        try {
-            let result = await axios.get(PACKAGE_ALL_API)
-            if (result.data.success) {
-                setPackages(result.data.packages)
-            }
-        } catch (error) {
-            alert("data fetching error")
-        }
-    }
+    // // get all Packages
+    // const getAllPackages = async () => {
+    //     try {
+    //         let result = await axios.get(PACKAGE_ALL_API)
+    //         if (result.data.success) {
+    //             setPackages(result.data.packages)
+    //         }
+    //     } catch (error) {
+    //         alert("data fetching error")
+    //     }
+    // }
     // delete selected Packages
     const onDeletePackage = async (id) => {
         try {
@@ -57,6 +59,7 @@ function PackageDetails() {
                     appearance: "success",
                     autoDismiss: true,
                 });
+                window.location.reload();
             }
         } catch (error) {
             addToast("Delete failed. Please try again", {
@@ -95,12 +98,13 @@ function PackageDetails() {
         { dataField: 'destination', text: 'Destination', filter: textFilter() },
         { dataField: 'address', text: 'Meeting Point',filter: textFilter() },
         { dataField: 'price', text: 'price', sort: true ,filter: textFilter()},
-        { dataField: 'startDate', text: 'Date',formatter:onDateText, sort: true },
+        { dataField: 'minTraveler', text: 'Min Traveler', sort: true ,filter: textFilter()},
+        { dataField: 'startDate', text: 'Date',formatter:onDateText },
         { dataField: 'Action', text: 'Action', formatter: deleteAction },
     ];
-    useEffect(() => {
-        getAllPackages()
-    }, [])
+    // useEffect(() => {
+    //     getAllPackages()
+    // }, [])
     return (
         <>
             <NoActionBanner />

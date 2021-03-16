@@ -36,18 +36,6 @@ function RestaurantDetails() {
             },
         });
     };
-
-    // get all Packages
-    // const getAllRestaurants = async () => {
-    //     try {
-    //         let result = await axios.get(HOTEL_ALL_API)
-    //         if (result.data.success) {
-    //             setHotels(result.data.data)
-    //         }
-    //     } catch (error) {
-    //         alert("data fetching error")
-    //     }
-    // }
     // delete selected restaurant
     const onDeleteAction = async (id) => {
         try {
@@ -57,6 +45,8 @@ function RestaurantDetails() {
                     appearance: "success",
                     autoDismiss: true,
                 });
+                window.location.reload();
+
             }
         } catch (error) {
             addToast("Delete failed. Please try again", {

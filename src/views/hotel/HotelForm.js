@@ -11,10 +11,8 @@ import axios from '../../services/axios'
 import { HOTEL_ADD_API } from '../../services/api_url'
 import { useToasts } from 'react-toast-notifications'
 import ImageUploading from "react-images-uploading";
-import ImagePicker from 'react-image-picker'
-import 'react-image-picker/dist/index.css'
-// import { DateRangePicker } from 'react-date-range';
-// import { addDays } from 'date-fns';
+import Select from "react-select"
+import { AMENITIES } from '../../MultipleOption'
 const ValidationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     totalRoom: Yup.string().required('Total room is required'),
@@ -25,26 +23,20 @@ const ValidationSchema = Yup.object().shape({
 })
 function HotelForm() {
     const [validFiles, setValidFiles] = useState([]);
+    const [amenities, setAmenities] = useState([]);
     const { addToast, removeAllToasts } = useToasts()
     const [images, setImages] = useState([]);
     const maxNumber = 10;
-    const imageList = [
-        `${process.env.PUBLIC_URL}/res/img/hotels/parking.png`,
-        `${process.env.PUBLIC_URL}/res/img/hotels/ac.png`,
-        `${process.env.PUBLIC_URL}/res/img/hotels/washing_machine.png`,
-        `${process.env.PUBLIC_URL}/res/img/hotels/wifi.png`,
-        `${process.env.PUBLIC_URL}/res/img/hotels/pool.png`,
-        `${process.env.PUBLIC_URL}/res/img/hotels/breakfast.png`,
-        `${process.env.PUBLIC_URL}/res/img/hotels/sanitizer.png`,
-        `${process.env.PUBLIC_URL}/res/img/hotels/food.png`
-    ]
-    // const [dateRange, setDateRange] = useState([
-    //     {
-    //         startDate: new Date(),
-    //         endDate: new Date(),
-    //         key: 'selection'
-    //     }
-    // ]);
+
+    let obj = {};
+    let arr = [];
+    const newObj = (value, label) => {
+        obj = {
+            value: value,
+            label: label,
+        };
+        arr.push(obj);
+    };
     const onImageSelectChange = (imageList, addUpdateIndex) => {
         // data for submit
         let file = []
@@ -62,6 +54,10 @@ function HotelForm() {
         } else {
             const formData = new FormData();
             formData.append("event", "hotel");
+            //Amenities Array
+            for (var i = 0; i < amenities.length; i++) {
+                formData.append('amenities', amenities[i].value);
+            }
             Array.from(validFiles).map(function (value, index) {
                 formData.append("picture", validFiles[index]);
             })
@@ -90,10 +86,9 @@ function HotelForm() {
 
     }
 
-   const onPickAmenities=(image)=> {
-       let imagename = image[0].src.split("/");
-       console.log(imagename)
-      }
+    const onSelectAmenities = (value) => {
+        setAmenities(value)
+    }
 
     return (
         <Card className="bg-secondary shadow mb-4">
@@ -110,7 +105,7 @@ function HotelForm() {
                         contact: '',
                         videoUrl: ''
                     }}
-                    validationSchema={ValidationSchema}
+                    // validationSchema={ValidationSchema}
                     onSubmit={(values, actions) => {
                         onAddTrigger(values, actions)
                     }}>
@@ -204,11 +199,10 @@ function HotelForm() {
                                     <Col lg="12">
                                         <FormGroup>
                                             <label className="form-control-label">Amenities</label>
-                                            <ImagePicker
-                                                multiple
-                                                images={imageList.map((image, i) => ({ src: image, value: i }))}
-                                                onPick={onPickAmenities}
-                                            />
+                                            <Select
+                                                isMulti
+                                                onChange={onSelectAmenities}
+                                                options={AMENITIES} />
                                         </FormGroup>
                                     </Col>
                                     <Col lg="6">

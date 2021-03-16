@@ -59,6 +59,7 @@ function HotelDetails() {
                     appearance: "success",
                     autoDismiss: true,
                 });
+                window.location.reload();
             }
         } catch (error) {
             addToast("Delete failed. Please try again", {
@@ -94,8 +95,11 @@ function HotelDetails() {
     const columns = [
         { dataField: 'name', text: 'Hotel Name', sort: true,filter: textFilter() },
         { dataField: 'address', text: 'Address',filter: textFilter() },
+        { dataField: 'totalRoom', text: 'Total Room',filter: textFilter() },
         { dataField: 'country', text: 'Country', filter: textFilter() },
         { dataField: 'contact', text: 'Contact',filter: textFilter() },
+        { dataField: 'hotelDesc', text: 'Description',filter: textFilter() },
+        { dataField: 'videoUrl', text: 'Link'},
         { dataField: 'Action', text: 'Action', formatter: deleteAction },
     ];
     // useEffect(() => {

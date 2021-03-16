@@ -1,4 +1,4 @@
-import React, { useState,useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import axios from '../../services/axios'
 import { USERS_GET, USER_DELETE_API, USER_UPDATE_API } from '../../services/api_url'
 import DataTable from 'components/Datatable/DataTable'
@@ -9,8 +9,9 @@ import { useToasts } from 'react-toast-notifications'
 import { confirmAlert } from "react-confirm-alert";
 import moment from 'moment'
 import 'moment-precise-range-plugin';
-import {PreLoaderContext} from '../../contexts/PreLoaderContext'
+import { PreLoaderContext } from '../../contexts/PreLoaderContext'
 import Roles from '../../role'
+import UserAdd from './UserAdd'
 
 function UsersDetails() {
     const { setIsLoading } = useContext(PreLoaderContext)
@@ -45,7 +46,7 @@ function UsersDetails() {
             let result = await axios.get(USERS_GET)
             console.log(result)
             if (result.data.success) {
-            setIsLoading(false)
+                setIsLoading(false)
 
                 setUsers(result.data.users)
             }
@@ -61,7 +62,6 @@ function UsersDetails() {
         }
     }
     const onDeleteUser = async (id) => {
-        alert(id)
         try {
             let result = await axios.delete(USER_DELETE_API + id)
             if (result.data.success) {
@@ -82,7 +82,7 @@ function UsersDetails() {
         try {
             let result = await axios.put(USER_UPDATE_API, {
                 type: e.target.value,
-                _id:id
+                _id: id
             })
             if (result.data.success) {
                 window.location.reload();
@@ -99,8 +99,8 @@ function UsersDetails() {
         }
     }
     const defaultSorted = [{
-        dataField: 'fullName',
-        order: 'asc'
+        dataField: 'createdAt',
+        order: 'desc'
     }];
     const actionOptionRow = (cell, row, rowIndex, formatExtraData) => {
         return <>
@@ -111,12 +111,13 @@ function UsersDetails() {
     const userRoleSelection = (cell, row, rowIndex, formatExtraData) => {
         return <>
             <select className="form-control" onChange={(e) => onUpdateRole(e, row._id)}>
-                {Roles.map((role)=>
-                <option value={role.value} selected={row.type?.includes(role.value)}>
-                    {role.label}
-                </option>
+                <option>Not assigned</option>
+                {Roles.map((role) =>
+                    <option value={role.value} selected={row.type?.includes(role.value)}>
+                        {role.label}
+                    </option>
                 )}
-           
+
             </select>
         </>
     }
@@ -139,6 +140,10 @@ function UsersDetails() {
             <NoActionBanner />
             <Card className="bg-secondary shadow mb-">
                 <CardBody>
+                    <UserAdd/>
+                    <div className="pb-3">
+                        <button className="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-circle"></i></button>
+                    </div>
                     <DataTable columns={columns} data={users} defaultSorted={defaultSorted} />
                 </CardBody>
             </Card>

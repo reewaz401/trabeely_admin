@@ -13,8 +13,7 @@ import { PACKAGE_API } from '../../services/api_url'
 import { useToasts } from 'react-toast-notifications'
 import ImageUploading from "react-images-uploading";
 import DateTimePicker from 'react-datetime-picker';
-// import ImageUploader from 'react-images-upload'
-//import images from local
+import {includesOption} from '../../MultipleOption'
 const ValidationSchema = Yup.object().shape({
     title: Yup.string().required('title is required'),
     price: Yup.string().required('price is required'),
@@ -26,12 +25,7 @@ function PackageForm() {
     const [includes, setIncludes] = useState([]);
     const [validFiles, setValidFiles] = useState([]);
     const [value, onChange] = useState(new Date());
-    let includesOption = [
-        { name: "Bag" },
-        { name: "Sleeping Bag" },
-        { name: "Apple" },
-        { name: "Orange" },
-    ]
+   
     const { addToast,removeAllToasts } = useToasts()
     const [images, setImages] = useState([]);
     const maxNumber = 10;
@@ -82,7 +76,7 @@ function PackageForm() {
             } catch (error) {
                 if (error.response) {
                     removeAllToasts()
-                    addToast(error.response.data.err, {
+                    addToast(error.response.data.error, {
                         appearance: "error",
                         autoDismiss: true,
                     });
@@ -111,6 +105,7 @@ function PackageForm() {
                         destination: '',
                         address: '',
                         duration: '',
+                        cancelPolicy: '',
                         packageType: ''
                     }}
                     validationSchema={ValidationSchema}
@@ -139,7 +134,7 @@ function PackageForm() {
                                             ) : null}
                                         </FormGroup>
                                     </Col>
-                                    <Col lg="4">
+                                    <Col lg="2">
                                         <FormGroup>
                                             <label className="form-control-label"
                                                 htmlFor="input-price"
@@ -147,12 +142,29 @@ function PackageForm() {
                                             <Field
                                                 name='price'
                                                 className='form-control'
-                                                placeholder='enter price'
+                                                placeholder='Enter price'
                                                 value={props.values.price}
                                                 onChange={props.handleChange}
                                             />
                                             {props.errors.price && props.touched.price ? (
                                                 <small className='form-text text-danger'>{props.errors.price}</small>
+                                            ) : null}
+                                        </FormGroup>
+                                    </Col>
+                                    <Col lg="2">
+                                        <FormGroup>
+                                            <label className="form-control-label"
+                                                htmlFor="input-price"
+                                            >Minimum traveler</label>
+                                            <Field
+                                                name='minTraveler'
+                                                className='form-control'
+                                                placeholder='Enter minimum traveler'
+                                                value={props.values.minTraveler}
+                                                onChange={props.handleChange}
+                                            />
+                                            {props.errors.minTraveler && props.touched.minTraveler ? (
+                                                <small className='form-text text-danger'>{props.errors.minTraveler}</small>
                                             ) : null}
                                         </FormGroup>
                                     </Col>
@@ -184,7 +196,7 @@ function PackageForm() {
                                             <Field
                                                 name='address'
                                                 className='form-control'
-                                                placeholder='enter address'
+                                                placeholder='Enter address'
                                                 value={props.values.address}
                                                 onChange={props.handleChange('address')}
                                             />
@@ -202,7 +214,7 @@ function PackageForm() {
                                             <Field
                                                 name='duration'
                                                 className='form-control'
-                                                placeholder='enter duration'
+                                                placeholder='Enter duration'
                                                 value={props.values.duration}
                                                 onChange={props.handleChange}
                                             />
@@ -214,8 +226,7 @@ function PackageForm() {
                                     <Col lg="4">
                                         <FormGroup>
                                             <label className="form-control-label"
-                                                htmlFor="input-address">
-                                                Package Type  </label>
+                                                htmlFor="input-address">Package Type  </label>
                                             <select onChange={props.handleChange} name='packageType' className='form-control'>
                                                 <option>Select Package Type</option>
                                                 {PACKAGES_TYPE.map((data, i) => (
@@ -231,8 +242,7 @@ function PackageForm() {
                                 </Row>
                                 <h6 className="heading-small text-muted mb-4"> Includes Section</h6>
                                 <Row>
-
-                                    <Col lg="8">
+                                    <Col lg="6">
                                         <FormGroup>
                                             <Multiselect
                                                 displayValue="key"
@@ -250,21 +260,36 @@ function PackageForm() {
                                             />
                                         </FormGroup>
                                     </Col>
-                                    <Col lg="4">
+                                    <Col lg="6">
                                         <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-address">
-                                                Valid Till  </label>
+                                            <label className="form-control-label">
+                                               Start Date  </label>
                                             <DateTimePicker
                                                 className="react-datetime-picker form-control"
                                                 onChange={onChange}
                                                 value={value}
-                                                isCalendarOpen="false"
-                                                isClock="false"
                                                 format="y-MM-dd h:mm:ss a"
                                                 minDate={new Date()}
                                             />
                                            
+                                        </FormGroup>
+                                    </Col>
+                                    <Col lg="12">
+                                        <FormGroup>
+                                            <label className="form-control-label">
+                                            Cancellation Policy </label>
+                                            <textarea
+                                                rows="4"
+                                                cols="40"
+                                                name='cancelPolicy'
+                                                className='form-control'
+                                                placeholder='Enter cancel policy'
+                                                value={props.values.cancelPolicy}
+                                                onChange={props.handleChange}
+                                            />
+                                            {props.errors.cancelPolicy && props.touched.cancelPolicy ? (
+                                                <small className='form-text text-danger'>{props.errors.cancelPolicy}</small>
+                                            ) : null}
                                         </FormGroup>
                                     </Col>
                                 </Row>
