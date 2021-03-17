@@ -134,7 +134,7 @@ function PackageForm() {
                                 {!isPrice ? (
                                     <React.Fragment>
                                         <Row>
-                                        <Col lg="4">
+                                            <Col lg="4">
                                                 <FormGroup>
                                                     <label className="form-control-label">Package Type  </label>
                                                     <select onChange={props.handleChange} name='packageType' className='form-control'>
@@ -411,7 +411,7 @@ function PackageForm() {
                                         </Row>
                                         <hr className="my-2" />
                                         <Row>
-                                           
+
                                             <Col lg="6">
                                                 <FormGroup>
                                                     <label className="form-control-label">Include Section </label>
@@ -435,14 +435,10 @@ function PackageForm() {
                                                 <FormGroup>
                                                     <label className="form-control-label">
                                                         Cancellation Policy </label>
-                                                    <textarea
-                                                        rows="7"
-                                                        cols="90"
-                                                        readOnly
-                                                        className='form-control'
-                                                        value={props.values.cancelPolicy}
-                                                        onChange={props.handleChange}
-                                                    />
+                                                    <select onChange={props.handleChange} name='cancelPolicy' className='form-control'>
+                                                        <option value="One day before check in (6 pm)">One day before check in (6 pm)</option>
+                                                        <option value="Two day before check in (6 pm)">Two day before check in (6 pm)</option>
+                                                    </select>
                                                     {props.errors.cancelPolicy && props.touched.cancelPolicy ? (
                                                         <small className='form-text text-danger'>{props.errors.cancelPolicy}</small>
                                                     ) : null}
