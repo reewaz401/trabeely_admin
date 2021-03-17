@@ -132,24 +132,18 @@ function ItineraryForm() {
             // add to the same array so we can display the name of the file
             // set error message
         }
-
     }
-
-
     const handleFileChange = () => {
         getSelectedImage(fileInputRef.current.files)
         if (fileInputRef.current.files.length) {
             handleFiles(fileInputRef.current.files);
         }
     }
-
-
-
     return (
         <>
             <Card className="bg-secondary shadow mb-4">
                 <CardBody>
-                    <h6 className="heading-small text-muted mb-4"> Itinerary Information</h6>
+                    <h6 className="heading-small text-muted mb-4"> Make sure you have added your package first</h6>
                     <Col md="12">
                         <FormGroup>
                             <label className="form-control-label">Package Type</label>
@@ -165,13 +159,6 @@ function ItineraryForm() {
                                     }
                                 }}
                             />
-                            {/* <select name='packageType' onClick={(e) => setId(e.target.value)} className='form-control'>
-                                {packages.map((data, i) => (
-                                    <option key={i} value={data._id}>
-                                        {data.title}
-                                    </option>
-                                ))}
-                            </select> */}
                         </FormGroup>
                     </Col>
                     <div className="pl-lg-4">

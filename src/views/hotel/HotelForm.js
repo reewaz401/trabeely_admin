@@ -256,65 +256,64 @@ function HotelForm() {
                                         </FormGroup>
                                     </Col>
                                 </Row> */}
-                            </div>
-                            <hr className="my-4" />
-                            <h6 className="heading-small text-muted mb-4"> Image Section</h6>
-                            <div className="pl-lg-4">
-                                <Row>
-                                    <Col md="12">
-                                        <FormGroup>
-                                            <ImageUploading
-                                                multiple
-                                                value={images}
-                                                onChange={onImageSelectChange}
-                                                maxNumber={maxNumber}
-                                                dataURLKey="data_url"
-                                            >
-                                                {({
-                                                    imageList,
-                                                    onImageUpload,
-                                                    onImageUpdate,
-                                                    onImageRemove,
-                                                }) => (
-                                                    <>
-                                                        <Row>
-                                                            <Col md="2">
-                                                                <div
-                                                                    onClick={onImageUpload}>
-                                                                    <a className="btn btn-primary"> <span className="text-white">Open image</span></a>
-                                                                </div>
-                                                            </Col>
-                                                            <Col md="8">
-                                                                {imageList.length != 0 ?
-                                                                    <div className="form-group multi-preview">
-                                                                        {imageList.map((image, index) => (
-                                                                            <Row>
-                                                                                <div className="col-md-8">
-                                                                                    <CardTitle className="text-uppercase text-muted mb-0">
-                                                                                        <img className="img-fluid" alt="Responsive image" src={image.data_url} alt="" width="100" />
-                                                                                    </CardTitle>
-                                                                                </div>
-                                                                                <Col className="col-auto">
-                                                                                    <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
-                                                                                    <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
+                                <hr className="my-4" />
+                                <h6 className="heading-small text-muted mb-4"> Image Section</h6>
+                                    <Row>
+                                        <Col md="12">
+                                            <FormGroup>
+                                                <ImageUploading
+                                                    multiple
+                                                    value={images}
+                                                    onChange={onImageSelectChange}
+                                                    maxNumber={maxNumber}
+                                                    dataURLKey="data_url"
+                                                >
+                                                    {({
+                                                        imageList,
+                                                        onImageUpload,
+                                                        onImageUpdate,
+                                                        onImageRemove,
+                                                    }) => (
+                                                        <>
+                                                            <Row>
+                                                                <Col md="2">
+                                                                    <div
+                                                                        onClick={onImageUpload}>
+                                                                        <a className="btn btn-primary"> <span className="text-white">Open image</span></a>
+                                                                    </div>
+                                                                </Col>
+                                                                <Col md="8">
+                                                                    {imageList.length != 0 ?
+                                                                        <div className="form-group multi-preview">
+                                                                            {imageList.map((image, index) => (
+                                                                                <Row>
+                                                                                    <div className="col-md-8">
+                                                                                        <CardTitle className="text-uppercase text-muted mb-0">
+                                                                                            <img className="img-fluid" alt="Responsive image" src={image.data_url} alt="" width="100" />
+                                                                                        </CardTitle>
+                                                                                    </div>
+                                                                                    <Col className="col-auto">
+                                                                                        <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
+                                                                                        <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
 
-                                                                                </Col>
-                                                                            </Row>
-                                                                        ))}
-                                                                    </div> : "Image not selected."}
+                                                                                    </Col>
+                                                                                </Row>
+                                                                            ))}
+                                                                        </div> : "Image not selected."}
 
-                                                            </Col>
-                                                        </Row>
-                                                    </>
-                                                )}
-                                            </ImageUploading>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
+                                                                </Col>
+                                                            </Row>
+                                                        </>
+                                                    )}
+                                                </ImageUploading>
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
                             </div>
+
                             <div className='pl-lg-4 form-group'>
                                 <div className="text-left">
-                                    <button className="btn btn-primary col-md-1" type="submit">
+                                    <button className="btn btn-primary" type="submit">
                                         Add
                                     </button>
                                 </div>

@@ -16,7 +16,7 @@ const PackageTab = () => {
   const [activeTab, setActiveTab] = useState('1');
 
   const tabs =[
-    {id:"1",name:"Add",icon:"fas fa-plus-square text-green"},
+    {id:"1",name:"Package Information",icon:"fas fa-plus-square text-green"},
     {id:"2",name:"Itinerary",icon:"fas fa-edit text-green"}
 ]
   const actions =[

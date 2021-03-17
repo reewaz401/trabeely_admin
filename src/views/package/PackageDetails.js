@@ -73,7 +73,14 @@ function PackageDetails() {
     const onDateText = (cell, row, rowIndex, formatExtraData) => {
         return (
             <>
-           <span >{moment(row.startDate).format("dddd, MMMM Do YYYY, h:mm:ss a")}</span>
+           <span >{moment(row.startDate).format("llll")}</span>
+            </>
+        );
+    };
+    const onDateText2 = (cell, row, rowIndex, formatExtraData) => {
+        return (
+            <>
+           <span >{moment(row.createdAt).format("llll")}</span>
             </>
         );
     };
@@ -89,7 +96,7 @@ function PackageDetails() {
         );
     };
     const defaultSorted = [{
-        dataField: 'name',
+        dataField: 'createdAt',
         order: 'desc'
     }];
     const columns = [
@@ -100,6 +107,7 @@ function PackageDetails() {
         { dataField: 'price', text: 'price', sort: true ,filter: textFilter()},
         { dataField: 'minTraveler', text: 'Min Traveler', sort: true ,filter: textFilter()},
         { dataField: 'startDate', text: 'Date',formatter:onDateText },
+        { dataField: 'createdAt', text: 'Added Date',formatter:onDateText2 },
         { dataField: 'Action', text: 'Action', formatter: deleteAction },
     ];
     // useEffect(() => {

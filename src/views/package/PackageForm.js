@@ -13,22 +13,32 @@ import { PACKAGE_API } from '../../services/api_url'
 import { useToasts } from 'react-toast-notifications'
 import ImageUploading from "react-images-uploading";
 import DateTimePicker from 'react-datetime-picker';
-import {includesOption} from '../../MultipleOption'
+import { includesOption } from '../../MultipleOption'
 const ValidationSchema = Yup.object().shape({
-    title: Yup.string().required('title is required'),
-    price: Yup.string().required('price is required'),
-    packageType: Yup.string().required('packageType is required'),
-    address: Yup.string().required('address is required'),
+    title: Yup.string().required('Field is required'),
+    price: Yup.string().required('Field is required'),
+    packageType: Yup.string().required('Field is required'),
+    address: Yup.string().required('Field is required'),
+    overview: Yup.string().required('Field is required'),
+    minTraveler: Yup.string().required('Field is required'),
 })
 
 function PackageForm() {
     const [includes, setIncludes] = useState([]);
     const [validFiles, setValidFiles] = useState([]);
     const [value, onChange] = useState(new Date());
-   
-    const { addToast,removeAllToasts } = useToasts()
+    const [isPrice, setIsPrice] = useState(false)
+
+    const { addToast, removeAllToasts } = useToasts()
     const [images, setImages] = useState([]);
     const maxNumber = 10;
+
+    const GroupDiscountModel = {
+        people: 0,
+        discount: 0,
+    }
+    const [groupDiscount, setGroupDiscount] = useState([GroupDiscountModel]);
+
     const onImageSelectChange = (imageList, addUpdateIndex) => {
         // data for submit
         let file = []
@@ -38,17 +48,17 @@ function PackageForm() {
     };
 
     const onAddPackage = async (values, actions) => {
-        if(validFiles.length == 0 ){
+        if (validFiles.length == 0) {
             addToast("You have not selected any images !", {
                 appearance: "error",
                 autoDismiss: true,
             });
-        }else if(includes.length ==0){
+        } else if (includes.length == 0) {
             addToast("You have not included item for package !", {
                 appearance: "error",
                 autoDismiss: true,
             });
-        }else{
+        } else {
             const formData = new FormData();
             formData.append("event", "package");
             formData.append("startDate", value);
@@ -60,6 +70,7 @@ function PackageForm() {
             Array.from(validFiles).map(function (value, index) {
                 formData.append("picture", validFiles[index]);
             })
+            formData.append("groupDiscount", JSON.stringify(groupDiscount));
             //Non-Array Value to store package desc, name, title
             for (const property in values) {
                 formData.append(property, values[property]);
@@ -68,6 +79,7 @@ function PackageForm() {
                 let result = await axios.post(PACKAGE_API, formData);
                 if (result.data.success) {
                     removeAllToasts()
+                    actions.resetForm();
                     addToast("Packages Added", {
                         appearance: "success",
                         autoDismiss: true,
@@ -83,7 +95,7 @@ function PackageForm() {
                 }
             }
         }
-       
+
     }
 
     // multiselect on select and remove
@@ -97,7 +109,7 @@ function PackageForm() {
     return (
         <Card className="bg-secondary shadow mb-4">
             <CardBody>
-                
+
                 <Formik
                     initialValues={{
                         title: '',
@@ -105,268 +117,357 @@ function PackageForm() {
                         destination: '',
                         address: '',
                         duration: '',
-                        cancelPolicy: '',
+                        cancelPolicy: `Policies to be considered:\n How many days should guests cancel the booking for no charge?\n(Should be in drop down menu)\n One day before check in (6 pm)\n Two day before check in (6 pm)`,
+                        minTraveler: '',
+                        overview: '',
                         packageType: ''
                     }}
-                    validationSchema={ValidationSchema}
+                    // validationSchema={ValidationSchema}
                     onSubmit={(values, actions) => {
                         onAddPackage(values, actions)
                     }}>
                     {props => (
                         <Form className='mt-2'>
-                            <h6 className="heading-small text-muted mb-4">
-                                Package information</h6>
+                            <h6 className="heading-small text-muted mb-4">Add Packages</h6>
                             <div className="pl-lg-4">
-                                <Row>
-                                    <Col lg="4">
-                                        <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-username" >Package Title</label>
-                                            <input
-                                                name='title'
-                                                className='form-control'
-                                                placeholder='e.g: anapurna base camp'
-                                                value={props.values.title}
-                                                onChange={props.handleChange}
-                                            />
-                                            {props.errors.title && props.touched.title ? (
-                                                <small className='form-text text-danger'>{props.errors.title}</small>
-                                            ) : null}
-                                        </FormGroup>
-                                    </Col>
-                                    <Col lg="2">
-                                        <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-price"
-                                            >Price</label>
-                                            <Field
-                                                name='price'
-                                                className='form-control'
-                                                placeholder='Enter price'
-                                                value={props.values.price}
-                                                onChange={props.handleChange}
-                                            />
-                                            {props.errors.price && props.touched.price ? (
-                                                <small className='form-text text-danger'>{props.errors.price}</small>
-                                            ) : null}
-                                        </FormGroup>
-                                    </Col>
-                                    <Col lg="2">
-                                        <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-price"
-                                            >Minimum traveler</label>
-                                            <Field
-                                                name='minTraveler'
-                                                className='form-control'
-                                                placeholder='Enter minimum traveler'
-                                                value={props.values.minTraveler}
-                                                onChange={props.handleChange}
-                                            />
-                                            {props.errors.minTraveler && props.touched.minTraveler ? (
-                                                <small className='form-text text-danger'>{props.errors.minTraveler}</small>
-                                            ) : null}
-                                        </FormGroup>
-                                    </Col>
-                                    <Col lg="4">
-                                        <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-first-name"
-                                            > Destination</label>
-                                            <Field
-                                                name='destination'
-                                                className='form-control'
-                                                placeholder='e.g. Kathmandu'
-                                                value={props.values.destination}
-                                                onChange={props.handleChange}
-                                            />
-                                            {props.errors.destination && props.touched.destination ? (
-                                                <small className='form-text text-danger'>{props.errors.destination}</small>
-                                            ) : null}
-                                        </FormGroup>
-                                    </Col>
 
-                                </Row>
-                                <Row>
-                                    <Col lg="4">
-                                        <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-address">
-                                                Meeting Point  </label>
-                                            <Field
-                                                name='address'
-                                                className='form-control'
-                                                placeholder='Enter address'
-                                                value={props.values.address}
-                                                onChange={props.handleChange('address')}
-                                            />
-                                            {props.errors.address && props.touched.address ? (
-                                                <small className='form-text text-danger'>{props.errors.address}</small>
-                                            ) : null}
-                                        </FormGroup>
-                                    </Col>
+                                {!isPrice ? (
+                                    <React.Fragment>
+                                        <Row>
+                                        <Col lg="4">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Package Type  </label>
+                                                    <select onChange={props.handleChange} name='packageType' className='form-control'>
+                                                        <option>Select Package Type</option>
+                                                        {PACKAGES_TYPE.map((data, i) => (
+                                                            <option key={i} value={data}
+                                                            // selected={type?.includes(data.packageType)}
+                                                            >
+                                                                {data}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="4">
+                                                <FormGroup>
+                                                    <label className="form-control-label"
+                                                        htmlFor="input-username" >Package Title</label>
+                                                    <input
+                                                        name='title'
+                                                        className='form-control'
+                                                        placeholder='e.g: anapurna base camp'
+                                                        value={props.values.title}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.title && props.touched.title ? (
+                                                        <small className='form-text text-danger'>{props.errors.title}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="2">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Minimum traveler</label>
+                                                    <Field
+                                                        name='minTraveler'
+                                                        className='form-control'
+                                                        placeholder='Enter minimum traveler'
+                                                        value={props.values.minTraveler}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.minTraveler && props.touched.minTraveler ? (
+                                                        <small className='form-text text-danger'>{props.errors.minTraveler}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="2">
+                                                <FormGroup>
+                                                    <label className="form-control-label"
+                                                        htmlFor="input-first-name"
+                                                    > Destination</label>
+                                                    <Field
+                                                        name='destination'
+                                                        className='form-control'
+                                                        placeholder='e.g. Kathmandu'
+                                                        value={props.values.destination}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.destination && props.touched.destination ? (
+                                                        <small className='form-text text-danger'>{props.errors.destination}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="4">
+                                                <FormGroup>
+                                                    <label className="form-control-label"
+                                                        htmlFor="input-address">
+                                                        Meeting Point  </label>
+                                                    <Field
+                                                        name='address'
+                                                        className='form-control'
+                                                        placeholder='Enter address'
+                                                        value={props.values.address}
+                                                        onChange={props.handleChange('address')}
+                                                    />
+                                                    {props.errors.address && props.touched.address ? (
+                                                        <small className='form-text text-danger'>{props.errors.address}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="2">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Duration  </label>
+                                                    <Field
+                                                        name='duration'
+                                                        className='form-control'
+                                                        placeholder='Enter duration'
+                                                        value={props.values.duration}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.duration && props.touched.duration ? (
+                                                        <small className='form-text text-danger'>{props.errors.duration}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="4">
+                                                <FormGroup>
+                                                    <label className="form-control-label">
+                                                        Start Date  </label>
+                                                    <DateTimePicker
+                                                        className="react-datetime-picker form-control"
+                                                        onChange={onChange}
+                                                        value={value}
+                                                        format="y-MM-dd h:mm:ss a"
+                                                        minDate={new Date()}
+                                                    />
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col lg="12">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Overview </label>
+                                                    <textarea
+                                                        rows="4"
+                                                        cols="40"
+                                                        name='overview'
+                                                        className='form-control'
+                                                        placeholder='Specify your package overview'
+                                                        value={props.values.overview}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.overview && props.touched.overview ? (
+                                                        <small className='form-text text-danger'>{props.errors.overview}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
 
-                                    <Col lg="4">
-                                        <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-address">
-                                                Duration  </label>
-                                            <Field
-                                                name='duration'
-                                                className='form-control'
-                                                placeholder='Enter duration'
-                                                value={props.values.duration}
-                                                onChange={props.handleChange}
-                                            />
-                                            {props.errors.duration && props.touched.duration ? (
-                                                <small className='form-text text-danger'>{props.errors.duration}</small>
-                                            ) : null}
-                                        </FormGroup>
-                                    </Col>
-                                    <Col lg="4">
-                                        <FormGroup>
-                                            <label className="form-control-label"
-                                                htmlFor="input-address">Package Type  </label>
-                                            <select onChange={props.handleChange} name='packageType' className='form-control'>
-                                                <option>Select Package Type</option>
-                                                {PACKAGES_TYPE.map((data, i) => (
-                                                    <option key={i} value={data}
-                                                    // selected={type?.includes(data.packageType)}
-                                                    >
-                                                        {data}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <h6 className="heading-small text-muted mb-4"> Includes Section</h6>
-                                <Row>
-                                    <Col lg="6">
-                                        <FormGroup>
-                                            <Multiselect
-                                                displayValue="key"
-                                                className='form-control'
-                                                options={includesOption}
-                                                displayValue="name"
-                                                onSelect={onSelect}
-                                                onRemove={onRemove}
-                                                style={{
-                                                    chips: { background: "#0f367c" },
-                                                    searchBox: {
-                                                        border: "none", "borderBottom": "1px solid blue", "borderRadius": "0px"
-                                                    }
-                                                }}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col lg="6">
-                                        <FormGroup>
-                                            <label className="form-control-label">
-                                               Start Date  </label>
-                                            <DateTimePicker
-                                                className="react-datetime-picker form-control"
-                                                onChange={onChange}
-                                                value={value}
-                                                format="y-MM-dd h:mm:ss a"
-                                                minDate={new Date()}
-                                            />
-                                           
-                                        </FormGroup>
-                                    </Col>
-                                    <Col lg="12">
-                                        <FormGroup>
-                                            <label className="form-control-label">
-                                            Cancellation Policy </label>
-                                            <textarea
-                                                rows="4"
-                                                cols="40"
-                                                name='cancelPolicy'
-                                                className='form-control'
-                                                placeholder='Enter cancel policy'
-                                                value={props.values.cancelPolicy}
-                                                onChange={props.handleChange}
-                                            />
-                                            {props.errors.cancelPolicy && props.touched.cancelPolicy ? (
-                                                <small className='form-text text-danger'>{props.errors.cancelPolicy}</small>
-                                            ) : null}
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                            </div>
-                            <hr className="my-4" />
-                            <h6 className="heading-small text-muted mb-4"> Image Section</h6>
-                            <div className="pl-lg-4">
-                                <Row>
-                                    <Col md="12">
-                                        <FormGroup>
-                                            {/* <ImageUploader
-                                                withIcon={true}
-                                                withPreview={true}
-                                                buttonText='Choose images'
-                                                onChange={onDrop}
-                                                imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                                                maxFileSize={15242880}
-                                            /> */}
-                                            <ImageUploading
-                                                multiple
-                                                value={images}
-                                                onChange={onImageSelectChange}
-                                                maxNumber={maxNumber}
-                                                dataURLKey="data_url"
-                                            >
-                                                {({
-                                                    imageList,
-                                                    onImageUpload,
-                                                    onImageUpdate,
-                                                    onImageRemove,
-                                                }) => (
-                                                    <>
+                                        </Row>
+                                        <hr className="my-4" />
+                                        <h6 className="heading-small text-muted mb-4"> Image Section</h6>
+                                        <div className="pl-lg-4">
+                                            <Row>
+                                                <Col md="12">
+                                                    <FormGroup>
+                                                        {/* <ImageUploader
+                                                            withIcon={true}
+                                                            withPreview={true}
+                                                            buttonText='Choose images'
+                                                            onChange={onDrop}
+                                                            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                                                            maxFileSize={15242880}
+                                                            /> */}
+                                                        <ImageUploading
+                                                            multiple
+                                                            value={images}
+                                                            onChange={onImageSelectChange}
+                                                            maxNumber={maxNumber}
+                                                            dataURLKey="data_url"
+                                                        >
+                                                            {({
+                                                                imageList,
+                                                                onImageUpload,
+                                                                onImageUpdate,
+                                                                onImageRemove,
+                                                            }) => (
+                                                                <>
+                                                                    <Row>
+                                                                        <Col md="2">
+                                                                            <div
+                                                                                onClick={onImageUpload}>
+                                                                                <a className="btn btn-primary"> <span className="text-white">Open image</span></a>
+                                                                            </div>
+                                                                        </Col>
+                                                                        <Col md="8">
+                                                                            {imageList.length != 0 ?
+                                                                                <div className="form-group multi-preview">
+                                                                                    {imageList.map((image, index) => (
+                                                                                        <Row>
+                                                                                            <div className="col-md-8">
+                                                                                                <CardTitle className="text-uppercase text-muted mb-0">
+                                                                                                    <img className="img-fluid" alt="Responsive image" src={image.data_url} alt="" width="100" />
+                                                                                                </CardTitle>
+                                                                                            </div>
+                                                                                            <Col className="col-auto">
+                                                                                                <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
+                                                                                                <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
+
+                                                                                            </Col>
+                                                                                        </Row>
+                                                                                    ))}
+                                                                                </div> : "Image not selected."}
+                                                                        </Col>
+                                                                    </Row>
+                                                                </>
+                                                            )}
+                                                        </ImageUploading>
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </React.Fragment>
+                                ) : (
+                                    <>
+                                        <Row>
+                                            <Col lg="2">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Price per person  </label>
+                                                    <Field
+                                                        name='price'
+                                                        className='form-control'
+                                                        placeholder='Price per person'
+                                                        value={props.values.price}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.price && props.touched.price ? (
+                                                        <small className='form-text text-danger'>{props.errors.price}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="4">
+                                                <h2>10% Commission wil be charged on every booking</h2></Col>
+                                        </Row>
+                                        <h6 className="heading-small text-muted mb-4"> Group Discount</h6>
+                                        <Row>
+                                            <Col lg="4">
+                                                {groupDiscount.map((p, index) => {
+                                                    return (
                                                         <Row>
-                                                            <Col md="2">
-                                                                <div 
-                                                                    onClick={onImageUpload}>
-                                                                   <a className="btn btn-primary"> <span className="text-white">Open image</span></a>
-                                                                </div>
+                                                            <Col md="6">
+                                                                <FormGroup>
+                                                                    <label
+                                                                        className="form-control-label">Number of people </label>
+                                                                    <input
+                                                                        name='people'
+                                                                        className='form-control'
+                                                                        placeholder='Enter number of people'
+                                                                        // value={p.people ? p.people: null}
+                                                                        onChange={e => {
+                                                                            const people = e.target.value;
+                                                                            var temp = groupDiscount
+                                                                            temp[index].people = people
+                                                                            setGroupDiscount(temp)
+                                                                        }}
+                                                                    />
+                                                                </FormGroup>
                                                             </Col>
-                                                            <Col md="8">
-                                                                {imageList.length != 0 ?
-                                                                    <div className="form-group multi-preview">
-                                                                        {imageList.map((image, index) => (
-                                                                            <Row>
-                                                                                <div className="col-md-8">
-                                                                                    <CardTitle className="text-uppercase text-muted mb-0">
-                                                                                        <img className="img-fluid" alt="Responsive image" src={image.data_url} alt="" width="100" />
-                                                                                    </CardTitle>
-                                                                                </div>
-                                                                                <Col className="col-auto">
-                                                                                    <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
-                                                                                    <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
-
-                                                                                </Col>
-                                                                            </Row>
-                                                                        ))}
-                                                                    </div> : "Image not selected."}
-
+                                                            <Col md="6">
+                                                                <FormGroup>
+                                                                    <label
+                                                                        className="form-control-label"> Discount (in Rs) </label>
+                                                                    <input
+                                                                        name='discount'
+                                                                        className='form-control'
+                                                                        placeholder='Enter your discount rate'
+                                                                        // value={p}
+                                                                        onChange={e => {
+                                                                            const discount = e.target.value;
+                                                                            var temp = groupDiscount
+                                                                            temp[index].discount = discount
+                                                                            setGroupDiscount(temp)
+                                                                        }}
+                                                                    />
+                                                                </FormGroup>
                                                             </Col>
+
                                                         </Row>
-
-
-
-                                                    </>
-                                                )}
-                                            </ImageUploading>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
+                                                    );
+                                                })}
+                                            </Col>
+                                            <Button
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    setGroupDiscount(discount => [
+                                                        ...discount,
+                                                        {
+                                                            people: "",
+                                                            discount: "",
+                                                        }
+                                                    ]);
+                                                }}
+                                                className="text-left my-2" color="primary" type="button">
+                                                <li className="fas fa-plus"></li>
+                                            </Button>
+                                        </Row>
+                                        <hr className="my-2" />
+                                        <Row>
+                                           
+                                            <Col lg="6">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Include Section </label>
+                                                    <Multiselect
+                                                        displayValue="key"
+                                                        className='form-control'
+                                                        options={includesOption}
+                                                        displayValue="name"
+                                                        onSelect={onSelect}
+                                                        onRemove={onRemove}
+                                                        style={{
+                                                            chips: { background: "#0f367c" },
+                                                            searchBox: {
+                                                                border: "none", "borderBottom": "1px solid blue", "borderRadius": "0px"
+                                                            }
+                                                        }}
+                                                    />
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="12">
+                                                <FormGroup>
+                                                    <label className="form-control-label">
+                                                        Cancellation Policy </label>
+                                                    <textarea
+                                                        rows="7"
+                                                        cols="90"
+                                                        readOnly
+                                                        className='form-control'
+                                                        value={props.values.cancelPolicy}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.cancelPolicy && props.touched.cancelPolicy ? (
+                                                        <small className='form-text text-danger'>{props.errors.cancelPolicy}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                    </>
+                                )}
                             </div>
                             <div className='pl-lg-4 form-group'>
                                 <div className="text-left">
-                                    <button className="btn btn-primary col-md-1" type="submit">
-                                        Add
-                                    </button>
+                                    {isPrice ? (
+                                        <><button className="btn btn-primary" onClick={(e) => setIsPrice(false)} type="button">
+                                            Back
+                                                </button>
+                                            <button className="btn btn-primary" type="submit">
+                                                Confirm</button>
+                                        </>) : <button className="btn btn-primary" onClick={(e) => setIsPrice(true)} type="button">
+                                        Next
+                                             </button>}
+
                                 </div>
                             </div>
+
+
                         </Form>
                     )}
                 </Formik>
