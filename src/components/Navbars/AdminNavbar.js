@@ -21,7 +21,7 @@ import axios from '../../services/axios'
 import { LOGOUT_API } from '../../services/api_url'
 import { AuthContext } from '../../contexts/UserAuthentication'
 const AdminNavbar = (props) => {
-  const { isAuthenticated, authUser } = useContext(AuthContext)
+  const {  authUser } = useContext(AuthContext)
 
   const onLogout = async e => {
     e.preventDefault()
@@ -72,17 +72,9 @@ const AdminNavbar = (props) => {
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
+                <DropdownItem to="/app/profile" tag={Link}>
                   <i className="ni ni-settings-gear-65" />
                   <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-support-16" />
-                  <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="#pablo" onClick={(e) => onLogout(e)}>

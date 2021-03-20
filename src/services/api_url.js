@@ -4,10 +4,11 @@ module.exports = {
     REGISTER_API: BASE_URI + "/auth/sign-up",
     LOGOUT_API: BASE_URI + "/auth/logout",
     roleUpdateAPI: BASE_URI + "/user/update-role/",  //{id}
-    tokenAPI: BASE_URI + "/check-token",
+    CHECK_PERMISSION: BASE_URI + "/auth/permission-handler",
     //Package
     PACKAGE_API: BASE_URI + "/packages/add-package",
     PACKAGE_DELETE_API: BASE_URI + "/packages/delete/",//{id}
+    PACKAGE_UPDATE_API: BASE_URI + "/packages/update/",//{id}
     ITINERARY_API: BASE_URI + "/packages/add-itinerary",
     AGENT_PACKAGE_API: BASE_URI + "/packages/agent-package", 
     PACKAGE_ALL_API: BASE_URI + "/packages",

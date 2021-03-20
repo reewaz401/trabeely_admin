@@ -16,8 +16,8 @@ const RestaurantTab = () => {
   const [activeTab, setActiveTab] = useState("1");
 
   const tabs =[
-    {id:"1",name:"Add Restaurant",icon:"fas fa-plus-square text-green"},
-    {id:"2",name:"Food Section",icon:"fas fa-plus-square text-green"},
+    {id:"1",name:"Add Restaurant",icon:"fas fa-plus-square text-green",visible: true},
+    {id:"2",name:"Food Section",icon:"fas fa-plus-square text-green",visible: true},
 ]
   const actions =[
     {icon:(<i class="fas fa-eye"></i>) ,path:"/app/restaurant-view",name:"View Restaurant List"},

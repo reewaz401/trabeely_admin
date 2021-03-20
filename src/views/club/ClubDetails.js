@@ -36,7 +36,6 @@ function ClubDetails() {
         });
     };
 
-    // delete selected Packages
     const onDeleteAction = async (id) => {
         try {
             let result = await axios.delete(CLUB_DELETE_API + id)
@@ -55,7 +54,7 @@ function ClubDetails() {
             });
         }
     }
-    const deleteAction = (cell, row, rowIndex, formatExtraData) => {
+    const actionList = (cell, row, rowIndex, formatExtraData) => {
         return (
             <>
                 <div style={{width:"200px"}}>
@@ -74,7 +73,7 @@ function ClubDetails() {
         { dataField: 'address', text: 'Address',filter: textFilter() },
         { dataField: 'country', text: 'Country', filter: textFilter() },
         { dataField: 'contact', text: 'Contact',filter: textFilter() },
-        { dataField: 'Action', text: 'Action', formatter: deleteAction },
+        { dataField: 'Action', text: 'Action', formatter: actionList },
     ];
  
     return (

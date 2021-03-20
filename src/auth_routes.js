@@ -1,5 +1,5 @@
-import Register from "views/auth/Register.js";
 import Login from "views/auth/Login.js";
+import Denied from "views/auth/Denied.js";
 
 var routes = [
     {
@@ -7,6 +7,12 @@ var routes = [
       name: "Login",
       icon: "fas fa-sign-in-alt text-yellow",
       component: Login,
+      layout: "/auth",
+    },
+    {
+      path: "/fail",
+      name: "Fail",
+      component: Denied,
       layout: "/auth",
     }    
   ];

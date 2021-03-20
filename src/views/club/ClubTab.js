@@ -14,7 +14,7 @@ import ClubForm from "./ClubForm";
 const ClubTab = () => {
     const [activeTab, setActiveTab] = useState("1");
     const tabs = [
-        { id: "1", name: "Add", icon: "fas fa-plus-square text-green" },
+        { id: "1", name: "Add", icon: "fas fa-plus-square text-green",visible: false },
     ]
     const actions = [
         { icon: (<i class="fas fa-eye"></i>), path: "/app/club-view", name: "View Club List" },

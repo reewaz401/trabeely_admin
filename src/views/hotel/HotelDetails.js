@@ -15,7 +15,6 @@ import { HotelContext } from 'contexts/HotelContext'
 function HotelDetails() {
     const { addToast } = useToasts()
     const {hotels} = useContext(HotelContext);
-    // const [hotels, setHotels] = useState([])
     const confirmDelete = (_id, title) => {
         confirmAlert({
             customUI: ({ onClose }) => {
@@ -39,18 +38,6 @@ function HotelDetails() {
         });
     };
 
-    // get all Packages
-    // const getAllHotels = async () => {
-    //     try {
-    //         let result = await axios.get(HOTEL_ALL_API)
-    //         if (result.data.success) {
-    //             setHotels(result.data.data)
-    //         }
-    //     } catch (error) {
-    //         alert("data fetching error")
-    //     }
-    // }
-    // delete selected Packages
     const onDeleteAction = async (id) => {
         try {
             let result = await axios.delete(HOTEL_DELETE_API + id)
@@ -68,8 +55,6 @@ function HotelDetails() {
             });
         }
     }
-
-
     const onDateText = (cell, row, rowIndex, formatExtraData) => {
         return (
             <>
@@ -78,7 +63,7 @@ function HotelDetails() {
         );
     };
 
-    const deleteAction = (cell, row, rowIndex, formatExtraData) => {
+    const actionList = (cell, row, rowIndex, formatExtraData) => {
         return (
             <>
                 <div style={{width:"200px"}}>
@@ -88,10 +73,6 @@ function HotelDetails() {
             </>
         );
     };
-    const defaultSorted = [{
-        dataField: 'name',
-        order: 'desc'
-    }];
     const columns = [
         { dataField: 'name', text: 'Hotel Name', sort: true,filter: textFilter() },
         { dataField: 'address', text: 'Address',filter: textFilter() },
@@ -100,7 +81,7 @@ function HotelDetails() {
         { dataField: 'contact', text: 'Contact',filter: textFilter() },
         { dataField: 'hotelDesc', text: 'Description',filter: textFilter() },
         { dataField: 'videoUrl', text: 'Link'},
-        { dataField: 'Action', text: 'Action', formatter: deleteAction },
+        { dataField: 'Action', text: 'Action', formatter: actionList },
     ];
     // useEffect(() => {
     //     getAllHotels()
@@ -110,7 +91,7 @@ function HotelDetails() {
             <NoActionBanner />
             <Card className="bg-secondary shadow mb-">
                 <CardBody>
-                    <DataTable columns={columns} data={hotels} defaultSorted={defaultSorted} />
+                    <DataTable columns={columns} data={hotels} />
                 </CardBody>
             </Card>
         </>

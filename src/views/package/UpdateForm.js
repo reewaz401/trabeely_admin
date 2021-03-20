@@ -15,13 +15,12 @@ import ImageUploading from "react-images-uploading";
 import DateTimePicker from 'react-datetime-picker';
 import { includesOption } from '../../MultipleOption'
 
-function PackageForm({setActiveTab, setPackageId}) {
+function PackageForm() {
 
     const [includes, setIncludes] = useState([]);
     const [validFiles, setValidFiles] = useState([]);
     const [value, onChange] = useState(new Date());
     const [isPrice, setIsPrice] = useState(false)
-    const [isItinerary, setIsItinerary] = useState(false)
     const { addToast, removeAllToasts } = useToasts()
     const [images, setImages] = useState([]);
     const maxNumber = 10;
@@ -39,7 +38,6 @@ function PackageForm({setActiveTab, setPackageId}) {
     };
 
     const onAddPackage = async (values, actions) => {
-        
         if (validFiles.length == 0) {
             addToast("You have not selected any images !", {
                 appearance: "error",
@@ -72,8 +70,6 @@ function PackageForm({setActiveTab, setPackageId}) {
                 if (result.data.success) {
                     removeAllToasts()
                     actions.resetForm();
-                    setPackageId(result.data.current_save_id);
-                    setActiveTab("2")
                     addToast("Packages Added", {
                         appearance: "success",
                         autoDismiss: true,
@@ -110,7 +106,7 @@ function PackageForm({setActiveTab, setPackageId}) {
                         destination: '',
                         address: '',
                         duration: '',
-                        cancelPolicy: ``,
+                        cancelPolicy: `Policies to be considered:\n How many days should guests cancel the booking for no charge?\n(Should be in drop down menu)\n One day before check in (6 pm)\n Two day before check in (6 pm)`,
                         minTraveler: '',
                         overview: '',
                         packageType: ''
@@ -262,6 +258,14 @@ function PackageForm({setActiveTab, setPackageId}) {
                                             <Row>
                                                 <Col md="12">
                                                     <FormGroup>
+                                                        {/* <ImageUploader
+                                                            withIcon={true}
+                                                            withPreview={true}
+                                                            buttonText='Choose images'
+                                                            onChange={onDrop}
+                                                            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                                                            maxFileSize={15242880}
+                                                            /> */}
                                                         <ImageUploading
                                                             multiple
                                                             value={images}
@@ -396,6 +400,7 @@ function PackageForm({setActiveTab, setPackageId}) {
                                         </Row>
                                         <hr className="my-2" />
                                         <Row>
+
                                             <Col lg="6">
                                                 <FormGroup>
                                                     <label className="form-control-label">Include Section </label>
@@ -435,16 +440,15 @@ function PackageForm({setActiveTab, setPackageId}) {
                             <div className='pl-lg-4 form-group'>
                                 <div className="text-left">
                                     {isPrice ? (
-                                        <>
-                                        <button className="btn btn-primary" onClick={(e) => setIsPrice(false)} type="button">
-                                            Back </button>
+                                        <><button className="btn btn-primary" onClick={(e) => setIsPrice(false)} type="button">
+                                            Back
+                                                </button>
                                             <button className="btn btn-primary" type="submit">
                                                 Confirm</button>
-                                        </>) : 
-                                        <button className="btn btn-primary" onClick={(e) => setIsPrice(true)} type="button">
+                                        </>) : <button className="btn btn-primary" onClick={(e) => setIsPrice(true)} type="button">
                                         Next
-                                        </button>
-                                         }
+                                             </button>}
+
                                 </div>
                             </div>
 
@@ -460,15 +464,3 @@ function PackageForm({setActiveTab, setPackageId}) {
 }
 
 export default PackageForm
-
-// const getSelectedImage = (files) => {
-//     let fileObj = [];
-//     let fileArray = []
-//     fileObj.push(files)
-//     for (let i = 0; i < fileObj[0].length; i++) {
-//         fileArray.push(URL.createObjectURL(fileObj[0][i]))
-//     }
-//     setPreview(fileArray);
-//     setSelectPackageImage(fileObj);
-
-// };

@@ -16,8 +16,8 @@ const HotelTab = () => {
   const [activeTab, setActiveTab] = useState('1');
 
   const tabs =[
-    {id:"1",name:"Add",icon:"fas fa-plus-square text-green"},
-    {id:"2",name:"Room",icon:"fas fa-edit text-green"}
+    {id:"1",name:"Add",icon:"fas fa-plus-square text-green",visible: true},
+    {id:"2",name:"Room",icon:"fas fa-edit text-green",visible: true}
 ]
   const actions =[
     {icon:(<i class="fas fa-eye"></i>) ,path:"/app/hotel-view",name:"View Hotel List"},

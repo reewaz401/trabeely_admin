@@ -1,3 +1,4 @@
+
 import React, { useState, useContext, useRef, useEffect } from 'react'
 import {
     Button,
@@ -13,13 +14,13 @@ import { Multiselect } from 'multiselect-react-dropdown'
 import ImageUploading from "react-images-uploading";
 
 
-function ItineraryForm() {
+function ItineraryForm({packageId}) {
     var step = 1
     const ItineraryModel = {
         day: step,
         routeName: '',
-        routeDesc: ''
-        // routeImg: ''
+        routeDesc: '',
+        routeImg: ''
     }
     let obj = {};
     let arr = [];
@@ -54,10 +55,6 @@ function ItineraryForm() {
         }
         setPreview(fileArray)
         setItineraryImage(fileObj);
-        // const routeImg = e.target.files[0];
-        // let temp2 = itineraryImage
-        // temp2.push(routeImg)
-        // setItineraryImage(temp2)
     };
     useEffect(() => {
         packages.map((option, i) =>
@@ -65,9 +62,10 @@ function ItineraryForm() {
         );
     }, [arr])
     const onUpdateItinerary = async (e) => {
+     
         const formData = new FormData();
         formData.append("event", "itinerary");
-        formData.append("packageId", id);
+        formData.append("packageId", packageId);
         //Itinerary Array
         Array.from(validFiles).map(function (value, index) {
             formData.append("picture", validFiles[index]);
@@ -80,6 +78,7 @@ function ItineraryForm() {
                     appearance: "success",
                     autoDismiss: true,
                 });
+                window.location.href="/app/package-view"
             }
         } catch (error) {
             if (error.response) {
@@ -94,23 +93,7 @@ function ItineraryForm() {
     const onSelect = (selectedList) => {
         setId(selectedList[0].value)
     };
-    // const fileType = (fileName) => {
-    //     return fileName.substring(fileName.lastIndexOf('.') + 1, fileName.length) || fileName;
-    // }
 
-    const removeFile = (name) => {
-        // find the index of the item
-        // remove the item from array
-
-        const validFileIndex = validFiles.findIndex(e => e.name === name);
-        validFiles.splice(validFileIndex, 1);
-        // update validFiles array
-        setValidFiles([...validFiles]);
-        const selectedFileIndex = selectedFiles.findIndex(e => e.name === name);
-        selectedFiles.splice(selectedFileIndex, 1);
-        // update selectedFiles array
-        setSelectedFiles([...selectedFiles]);
-    }
     useEffect(() => {
         let filteredArray = selectedFiles.reduce((file, current) => {
             const x = file.find(item => item.name === current.name);
@@ -133,6 +116,18 @@ function ItineraryForm() {
             // set error message
         }
     }
+    const removeFile = (name) => {
+        // find the index of the item
+        // remove the item from array
+        const validFileIndex = validFiles.findIndex(e => e.name === name);
+        validFiles.splice(validFileIndex, 1);
+        // update validFiles array
+        setValidFiles([...validFiles]);
+        const selectedFileIndex = selectedFiles.findIndex(e => e.name === name);
+        selectedFiles.splice(selectedFileIndex, 1);
+        // update selectedFiles array
+        setSelectedFiles([...selectedFiles]);
+    }
     const handleFileChange = () => {
         getSelectedImage(fileInputRef.current.files)
         if (fileInputRef.current.files.length) {
@@ -143,8 +138,8 @@ function ItineraryForm() {
         <>
             <Card className="bg-secondary shadow mb-4">
                 <CardBody>
-                    <h6 className="heading-small text-muted mb-4"> Make sure you have added your package first</h6>
-                    <Col md="12">
+                    <h3 className="text-muted mb-4">Make sure you have added your itinerary correctly (Dont refresh page)</h3>
+                    {/* <Col md="12">
                         <FormGroup>
                             <label className="form-control-label">Package Type</label>
                             <Multiselect
@@ -160,109 +155,85 @@ function ItineraryForm() {
                                 }}
                             />
                         </FormGroup>
-                    </Col>
+                    </Col> */}
                     <div className="pl-lg-4">
                         {itinerary.map((p, index) => {
                             return (
-                                <Row>
-                                    <label className="my-4">Day {step++}</label>
-                                    <Col md="2">
-                                        <FormGroup>
-                                            <label
-                                                className="form-control-label"
-                                                htmlFor="input-address"
-                                            > Route Name </label>
-                                            <input
-                                                name='routeName'
-                                                className='form-control'
-                                                placeholder='enter route name'
-                                                onChange={e => {
-                                                    const routeName = e.target.value;
-                                                    var temp = itinerary
-                                                    temp[index].routeName = routeName
-                                                    setItinerary(temp)
-                                                }}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <label
-                                                className="form-control-label"
-                                                htmlFor="input-description"
-                                            > Route Description </label>
-                                            <textarea
-                                                rows="1"
-                                                cols="40"
-                                                name='routeDesc'
-                                                className='form-control'
-                                                placeholder='enter route description'
-                                                onChange={e => {
-                                                    const routeDesc = e.target.value;
-                                                    var temp = itinerary
-                                                    temp[index].routeDesc = routeDesc
-                                                    setItinerary(temp)
-                                                }}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="2">
-                                        <FormGroup>
-                                            <label
-                                                className="form-control-label" htmlFor="input-description">Image</label>
-                                            <input
-                                                name="picture"
-                                                type="file"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                                // onChange={(e) => getSelectedImage(e)}
-                                                ref={fileInputRef}
-                                                onChange={() => handleFileChange()}
-                                                className="form-control"
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
+                                <>
+                                    <Row>
+                                        <label className="my-4">Day {step++}</label>
+                                        <Col md="2">
+                                            <FormGroup>
+                                                <label
+                                                    className="form-control-label"
+                                                    htmlFor="input-address"
+                                                > Route Name </label>
+                                                <input
+                                                    name='routeName'
+                                                    className='form-control'
+                                                    placeholder='enter route name'
+                                                    onChange={e => {
+                                                        const routeName = e.target.value;
+                                                        var temp = itinerary
+                                                        temp[index].routeName = routeName
+                                                        setItinerary(temp)
+                                                    }}
+                                                />
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md="6">
+                                            <FormGroup>
+                                                <label
+                                                    className="form-control-label"
+                                                    htmlFor="input-description"
+                                                > Route Description </label>
+                                                <textarea
+                                                    rows="2"
+                                                    cols="40"
+                                                    name='routeDesc'
+                                                    className='form-control'
+                                                    placeholder='enter route description'
+                                                    onChange={e => {
+                                                        const routeDesc = e.target.value;
+                                                        var temp = itinerary
+                                                        temp[index].routeDesc = routeDesc
+                                                        setItinerary(temp)
+                                                    }}
+                                                />
+                                            </FormGroup>
+                                        </Col>
+                                        {/* <Col md="2">
+                                            <FormGroup>
+                                                <label
+                                                    className="form-control-label" htmlFor="input-description">Image</label>
+                                                <input
+                                                    name="picture"
+                                                    type="file"
+                                                    accept="image/png, image/jpeg, image/jpg"
+                                                    // onChange={(e) => getSelectedImage(e)}
+                                                    ref={fileInputRef}
+                                                    onChange={() => handleFileChange()}
+                                                    className="form-control"
+                                                />
+                                            </FormGroup>
+                                        </Col> */}
+                                        {/* {itinerary.length === index + 1 && <Button className="btn btn-danger" onClick={(e) => removeForm(index)}>Remove</Button>} */}
+                                    </Row>
+                                </>
                             );
                         })}
-                        {preview.length <= 0 ? "" :
+
+                        {/* {preview.length <= 0 ? "" :
                             <div className="form-group multi-preview">
                                 {validFiles && validFiles.map((file, i) =>
                                     <>
-                                        {/* <span><i className="fa fa-times" onClick={() => removeFile(file.name)}></i></span> */}
+                                        <span><i className="fa fa-times" onClick={() => removeFile(file.name)}></i></span>
                                         <img height="100" width="100" className="img-fluid" alt="Responsive image" src={URL.createObjectURL(file)} />
 
                                     </>
                                 )}
 
-                            </div>}
-                        {/* {itineraryImage.length != 0 ?
-                                                <div className="form-group multi-preview">
-                                                    {itineraryImage.map((image, index) => (
-                                                        <Row>
-                                                            <div className="col-md-8">
-                                                                <CardTitle className="text-uppercase text-muted mb-0">
-                                                                    <img className="img-fluid" alt="Responsive image" src={URL.createObjectURL(image)} alt="" width="100" />
-                                                                </CardTitle>
-                                                            </div>
-                                                            <Col className="col-auto">
-                                                                <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
-                                                            </Col>
-                                                        </Row>
-                                                    ))}
-                                                </div> : "Image not selected."} */}
-                        {/* {itineraryImage.length != 0 ?
-                                <div className="form-group multi-preview">
-                                    {itineraryImage.map((data, index) => (
-                                        <Row>
-                                            <div className="col-md-8">
-                                                <CardTitle className="text-uppercase text-muted">
-                                                    <img className="img-fluid" alt="Responsive image" src={URL.createObjectURL(data)} alt="" width="100" />
-                                                </CardTitle>
-                                            </div>
-                                        </Row>
-                                    ))}
-                                </div> : ""} */}
-
+                            </div>} */}
                         <Button
                             onClick={(e) => {
                                 e.preventDefault()

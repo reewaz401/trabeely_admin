@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from '../../services/axios'
 import { APPROVE_PRE_REGISTER, PRE_REGISTER_GET } from '../../services/api_url'
 import DataTable from 'components/Datatable/DataTable'
 import { Card, CardBody, Button } from 'reactstrap'
-import { textFilter } from 'react-bootstrap-table2-filter';
 import NoActionBanner from 'components/Headers/NoActionBanner'
 import { useToasts } from 'react-toast-notifications'
 import { confirmAlert } from "react-confirm-alert";
@@ -50,7 +49,6 @@ function PreRegisters() {
     }
     const onApprove = async (id) => {
         try {
-            alert(id)
             let result = await axios.put(APPROVE_PRE_REGISTER + id,{
                 status:true
             })

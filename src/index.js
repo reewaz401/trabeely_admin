@@ -19,27 +19,26 @@ import HotelContextProvider from "contexts/HotelContext";
 import RestaurantContextProvider from "contexts/AgentRestaurantContext";
 import PreloaderContextProvider from "contexts/PreLoaderContext";
 import ClubContextProvider from "contexts/AgentClubContext";
-// import PreloaderContextProvider from './contexts/Preloader'
 ReactDOM.render(
   <PreloaderContextProvider>
     <PackagesContextProvider>
-      <HotelContextProvider>
-        <RestaurantContextProvider>
-          <ClubContextProvider>
-            <AuthContextProvider>
-              <ToastProvider placement='top-center' autoDismissTimeout='3000'>
-                <BrowserRouter>
-                  <Switch>
-                    <Route path="/app" render={(props) => <AdminLayout {...props} />} />
-                    <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-                    <Redirect from="/" to="/auth/login" />
-                  </Switch>
-                </BrowserRouter>
-              </ToastProvider>
-            </AuthContextProvider>
-          </ClubContextProvider>
-        </RestaurantContextProvider>
-      </HotelContextProvider>
+        <HotelContextProvider>
+          <RestaurantContextProvider>
+            <ClubContextProvider>
+              <AuthContextProvider>
+                <ToastProvider placement='top-center' autoDismissTimeout='3000'>
+                  <BrowserRouter>
+                    <Switch>
+                      <Route path="/app" render={(props) => <AdminLayout {...props} />} />
+                      <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+                      <Redirect from="/" to="/auth/login" />
+                    </Switch>
+                  </BrowserRouter>
+                </ToastProvider>
+              </AuthContextProvider>
+            </ClubContextProvider>
+          </RestaurantContextProvider>
+        </HotelContextProvider>
     </PackagesContextProvider>
   </PreloaderContextProvider>
   ,
