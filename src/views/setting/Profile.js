@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 // reactstrap components
 import {
   Button,
@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardBody,
   FormGroup,
-  Form,
   Input,
   Container,
   Row,
@@ -14,13 +13,60 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
+import { Formik, Form, Field } from 'formik'
+import * as Yup from 'yup'
+import { USER_UPDATE_PASSWORD_API } from '../../services/api_url'
+import axios from '../../services/axios'
+import { AuthContext } from '../../contexts/UserAuthentication'
+import { useToasts } from 'react-toast-notifications'
 
+const ValidationSchema = Yup.object().shape({
+  currentpassword: Yup.string().required('Field is required'),
+  password: Yup.string().required('Field is required'),
+  cpassword: Yup.string().required('Field is required'),
+})
 const Profile = () => {
+  // const [profile, setProfile] = useState({})
+  const { authUser } = useContext(AuthContext)
+  const { addToast, removeAllToasts } = useToasts()
+  const onUpdatePassword = async (values, actions) => {
+    try {
+      if (values.password === values.cpassword) {
+        let result = await axios.post(USER_UPDATE_PASSWORD_API, values)
+        if (result.data.success) {
+          addToast(result.data.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          actions.resetForm();
+          window.location.reload();
+        }else{
+          addToast(result.data.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      } else {
+        addToast("Password not match", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        removeAllToasts()
+        addToast(error.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    }
+  }
   return (
     <>
       <UserHeader />
       {/* Page content */}
-      <Container className="mt--7" fluid>
+      <Container className="mt--6" fluid>
         <Row>
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
@@ -31,7 +77,7 @@ const Profile = () => {
                       <img
                         alt="no profile"
                         className="rounded-circle"
-                        src={""}
+                        src={`${process.env.PUBLIC_URL}/res/img/default_user.svg`}
                       />
                     </a>
                   </div>
@@ -39,31 +85,14 @@ const Profile = () => {
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                 <div className="d-flex justify-content-between">
-                  <Button
-                    className="mr-4"
-                    color="info"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                    size="sm"
-                  >
-                    Connect
-                  </Button>
-                  <Button
-                    className="float-right"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                    size="sm"
-                  >
-                    Message
-                  </Button>
+                  {/* //Content */}
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
                 <Row>
                   <div className="col">
                     <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                      <div>
+                      {/* <div>
                         <span className="heading">22</span>
                         <span className="description">Friends</span>
                       </div>
@@ -74,37 +103,10 @@ const Profile = () => {
                       <div>
                         <span className="heading">89</span>
                         <span className="description">Comments</span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </Row>
-                <div className="text-center">
-                  <h3>
-                    Jessica Jones
-                    <span className="font-weight-light">, 27</span>
-                  </h3>
-                  <div className="h5 font-weight-300">
-                    <i className="ni location_pin mr-2" />
-                    Bucharest, Romania
-                  </div>
-                  <div className="h5 mt-4">
-                    <i className="ni business_briefcase-24 mr-2" />
-                    Solution Manager - Creative Tim Officer
-                  </div>
-                  <div>
-                    <i className="ni education_hat mr-2" />
-                    University of Computer Science
-                  </div>
-                  <hr className="my-4" />
-                  <p>
-                    Ryan — the name taken by Melbourne-raised, Brooklyn-based
-                    Nick Murphy — writes, performs and records all of his own
-                    music.
-                  </p>
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    Show more
-                  </a>
-                </div>
               </CardBody>
             </Card>
           </Col>
@@ -115,191 +117,122 @@ const Profile = () => {
                   <Col xs="8">
                     <h3 className="mb-0">My account</h3>
                   </Col>
-                  <Col className="text-right" xs="4">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      Settings
-                    </Button>
-                  </Col>
                 </Row>
               </CardHeader>
               <CardBody>
-                <Form>
-                  <h6 className="heading-small text-muted mb-4">
-                    User information
+                <div className="pl-lg-4">
+                  <Row>
+                    <Col lg="6">
+                      <FormGroup>
+                        <label className="form-control-label"   >
+                          Your full name
+                          </label>
+                        <Input
+                          className="form-control-alternative"
+                          defaultValue={authUser.name}
+                          readOnly
+                          placeholder="Username"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg="6">
+                      <FormGroup>
+                        <label
+                          className="form-control-label" >
+                          Email address
+                          </label>
+                        <Input
+                          className="form-control-alternative"
+                          value={authUser.email}
+                          placeholder={authUser.email}
+                          type="email"
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </div>
+
+                <hr className="my-4" />
+                {/* Address */}
+                <h6 className="heading-small text-muted mb-4">
+                  Password Section
                   </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-username"
-                          >
-                            Username
+                <div className="pl-lg-4">
+                  <Formik
+                    initialValues={{
+                      currentpassword: '',
+                      password: '',
+                      cpassword: '',
+                    }}
+                    validationSchema={ValidationSchema}
+                    onSubmit={(values, actions) => {
+                      onUpdatePassword(values, actions)
+                    }}>
+                    {props => (
+                      <Form className='mt-2'>
+                        <Row>
+                          <Col md="12">
+                            <FormGroup>
+                              <label
+                                className="form-control-label">Current Password</label>
+                              <Field
+                                type="password"
+                                name="currentpassword"
+                                className="form-control"
+                                placeholder="Enter your current password"
+                                value={props.values.currentpassword}
+                                onChange={props.handleChange}
+                              />
+                              {props.errors.currentpassword && props.touched.currentpassword ? (
+                                <small className='form-text text-danger'>{props.errors.currentpassword}</small>
+                              ) : null}
+                            </FormGroup>
+                          </Col>
+                          <Col md="12">
+                            <FormGroup>
+                              <label
+                                className="form-control-label">New Password
                           </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="lucky.jesse"
-                            id="input-username"
-                            placeholder="Username"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-email"
-                          >
-                            Email address
+                              <Field
+                                name="password"
+                                className="form-control"
+                                placeholder="Enter your new password"
+                                type="text"
+                                value={props.values.password}
+                                onChange={props.handleChange}
+                              />
+                              {props.errors.password && props.touched.password ? (
+                                <small className='form-text text-danger'>{props.errors.password}</small>
+                              ) : null}
+                            </FormGroup>
+                          </Col>
+                          <Col md="12">
+                            <FormGroup>
+                              <label
+                                className="form-control-label">Confirm Password
                           </label>
-                          <Input
-                            className="form-control-alternative"
-                            id="input-email"
-                            placeholder="jesse@example.com"
-                            type="email"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-first-name"
-                          >
-                            First name
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Lucky"
-                            id="input-first-name"
-                            placeholder="First name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-last-name"
-                          >
-                            Last name
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Jesse"
-                            id="input-last-name"
-                            placeholder="Last name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
-                  <hr className="my-4" />
-                  {/* Address */}
-                  <h6 className="heading-small text-muted mb-4">
-                    Contact information
-                  </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-address"
-                          >
-                            Address
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                            id="input-address"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-city"
-                          >
-                            City
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="New York"
-                            id="input-city"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Country
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="United States"
-                            id="input-country"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Postal code
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id="input-postal-code"
-                            placeholder="Postal code"
-                            type="number"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
-                  <hr className="my-4" />
-                  {/* Description */}
-                  <h6 className="heading-small text-muted mb-4">About me</h6>
-                  <div className="pl-lg-4">
-                    <FormGroup>
-                      <label>About Me</label>
-                      <Input
-                        className="form-control-alternative"
-                        placeholder="A few words about you ..."
-                        rows="4"
-                        defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
-                        Open Source."
-                        type="textarea"
-                      />
-                    </FormGroup>
-                  </div>
-                </Form>
+                              <Field
+                                name="cpassword"
+                                className="form-control"
+                                placeholder="Confirm new password"
+                                type="text"
+                                value={props.values.cpassword}
+                                onChange={props.handleChange}
+                              />
+                              {props.errors.cpassword && props.touched.cpassword ? (
+                                <small className='form-text text-danger'>{props.errors.cpassword}</small>
+                              ) : null}
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <div className="text-left">
+                          <button className="btn btn-primary" type="submit">Update Your New Password</button>
+                        </div>
+                      </Form>
+                    )}
+                  </Formik>
+                </div>
               </CardBody>
             </Card>
           </Col>

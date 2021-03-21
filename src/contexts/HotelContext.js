@@ -11,14 +11,18 @@ const HotelContextProvider = ({ children }) => {
     permissionController()
   }, [])
   const permissionController = async () => {
-    let permission = await PermissionHandler();
-    if (permission.data.type === "admin") {
-      getAllHotels(); //for admin
-    } else {
-      getHotelDetails();//for agent
+    try {
+      let permission = await PermissionHandler();
+      if (permission.data.type === "admin") {
+        getAllHotels(); //for admin
+      } else {
+        getHotelDetails();//for agent
+      }
+    } catch (error) {
+
     }
   }
- 
+
   const getHotelDetails = async () => {
     try {
       let result = await axios.get(AGENT_HOTEL_API)

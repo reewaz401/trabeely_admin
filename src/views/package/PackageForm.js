@@ -14,7 +14,17 @@ import { useToasts } from 'react-toast-notifications'
 import ImageUploading from "react-images-uploading";
 import DateTimePicker from 'react-datetime-picker';
 import { includesOption } from '../../MultipleOption'
-
+const ValidationSchema = Yup.object().shape({
+    title: Yup.string().required('Field is required'),
+    price: Yup.string().required('Field is required'),
+    destination: Yup.string().required('Field is required'),
+    address: Yup.string().required('Field is required'),
+    duration: Yup.string().required('Field is required'),
+    cancelPolicy: Yup.string().required('Field is required'),
+    minTraveler: Yup.string().required('Field is required'),
+    overview: Yup.string().required('Field is required'),
+    packageType: Yup.string().required('Field is required'),
+})
 function PackageForm({setActiveTab, setPackageId}) {
 
     const [includes, setIncludes] = useState([]);
@@ -115,7 +125,7 @@ function PackageForm({setActiveTab, setPackageId}) {
                         overview: '',
                         packageType: ''
                     }}
-                    // validationSchema={ValidationSchema}
+                    validationSchema={ValidationSchema}
                     onSubmit={(values, actions) => {
                         onAddPackage(values, actions)
                     }}>
@@ -158,22 +168,7 @@ function PackageForm({setActiveTab, setPackageId}) {
                                                     ) : null}
                                                 </FormGroup>
                                             </Col>
-                                            <Col lg="2">
-                                                <FormGroup>
-                                                    <label className="form-control-label">Minimum traveler</label>
-                                                    <Field
-                                                        name='minTraveler'
-                                                        className='form-control'
-                                                        placeholder='Enter minimum traveler'
-                                                        value={props.values.minTraveler}
-                                                        onChange={props.handleChange}
-                                                    />
-                                                    {props.errors.minTraveler && props.touched.minTraveler ? (
-                                                        <small className='form-text text-danger'>{props.errors.minTraveler}</small>
-                                                    ) : null}
-                                                </FormGroup>
-                                            </Col>
-                                            <Col lg="2">
+                                            <Col lg="4">
                                                 <FormGroup>
                                                     <label className="form-control-label"
                                                         htmlFor="input-first-name"
@@ -204,6 +199,21 @@ function PackageForm({setActiveTab, setPackageId}) {
                                                     />
                                                     {props.errors.address && props.touched.address ? (
                                                         <small className='form-text text-danger'>{props.errors.address}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="2">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Minimum traveler</label>
+                                                    <Field
+                                                        name='minTraveler'
+                                                        className='form-control'
+                                                        placeholder='Enter minimum traveler'
+                                                        value={props.values.minTraveler}
+                                                        onChange={props.handleChange}
+                                                    />
+                                                    {props.errors.minTraveler && props.touched.minTraveler ? (
+                                                        <small className='form-text text-danger'>{props.errors.minTraveler}</small>
                                                     ) : null}
                                                 </FormGroup>
                                             </Col>

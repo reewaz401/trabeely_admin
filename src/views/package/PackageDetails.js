@@ -1,4 +1,4 @@
-import React, {  useContext } from 'react'
+import React, { useContext,useState } from 'react'
 
 import axios from '../../services/axios'
 import { PACKAGE_UPDATE_API, PACKAGE_DELETE_API } from '../../services/api_url'
@@ -11,11 +11,14 @@ import { confirmAlert } from "react-confirm-alert";
 import moment from 'moment'
 import 'moment-precise-range-plugin';
 import { PackagesContext } from 'contexts/AgentPackageContext'
+import PackageUpdate from './PackageUpdate'
 
 function PackageDetails() {
     const { addToast } = useToasts()
-    // const [packages, setPackages] = useState([])
-    const {packages} = useContext(PackagesContext)
+    const [updateData, setUpdateData] = useState([])
+    const [isUpdate, setIsUpdate] = useState(false)
+    const [pkgId, setPkgId] = useState("")
+    const { packages } = useContext(PackagesContext)
     const confirm = (_id, title) => {
         confirmAlert({
             customUI: ({ onClose }) => {
@@ -37,7 +40,11 @@ function PackageDetails() {
             },
         });
     };
-
+    const onUpdateChange = (id, pckg) => {
+        setIsUpdate(true);
+        setUpdateData(pckg);
+        setPkgId(id);
+    }
     const onDeletePackage = async (id) => {
         try {
             let result = await axios.delete(PACKAGE_DELETE_API + id)
@@ -55,11 +62,11 @@ function PackageDetails() {
             });
         }
     }
-    const onPublish = async (e,id) => {
+    const onPublish = async (e, id) => {
         try {
-            let result = await axios.put(PACKAGE_UPDATE_API,{
-                _id:id,
-                status:true
+            let result = await axios.put(PACKAGE_UPDATE_API, {
+                _id: id,
+                status: true
             })
             if (result.data.success) {
                 addToast(result.data.message, {
@@ -76,27 +83,27 @@ function PackageDetails() {
         }
     }
 
-    const onDraftAndPublish = (cell, row, rowIndex, formatExtraData)=>{
-         return (
-            <div> 
-           {!row.status ? (
-                <Button className="btn btn-success" onClick={(e) => onPublish(e,row._id)}><i class="fas fa-share"></i></Button>
-           ) :<span className="text-green">Published</span>}
+    const onDraftAndPublish = (cell, row, rowIndex, formatExtraData) => {
+        return (
+            <div>
+                {!row.status ? (
+                    <Button className="btn btn-success" onClick={(e) => onPublish(e, row._id)}><i class="fas fa-share"></i></Button>
+                ) : <span className="text-green">Published</span>}
             </div>
         );
     }
     const onDateText = (cell, row, rowIndex, formatExtraData) => {
         return (
             <>
-           <span >{moment(row.startDate).format("llll")}</span>
+                <span >{moment(row.startDate).format("llll")}</span>
             </>
         );
     };
     const actionList = (cell, row, rowIndex, formatExtraData) => {
         return (
             <>
-                <div style={{width:"250px"}}>
-                    <Button className="btn btn-info button" onClick={(e) => alert(rowIndex)}><i class="fas fa-eye"></i></Button>
+                <div style={{ width: "250px" }}>
+                    <Button className="btn btn-info button" onClick={(e) => onUpdateChange(row._id, row)}><i class="fas fa-eye"></i></Button>
                     <Button className="btn btn-danger button" onClick={(e) => confirm(row._id, `Delete this ${row.title}`)}><i class="fas fa-trash"></i></Button>
                 </div>
             </>
@@ -107,14 +114,14 @@ function PackageDetails() {
         order: 'desc'
     }];
     const columns = [
-        { dataField: 'title', text: 'Title', sort: true,filter: textFilter() },
-        { dataField: 'packageType', text: 'Type',filter: textFilter() },
+        { dataField: 'title', text: 'Title', sort: true, filter: textFilter() },
+        { dataField: 'packageType', text: 'Type', filter: textFilter() },
         { dataField: 'destination', text: 'Destination', filter: textFilter() },
-        { dataField: 'address', text: 'Meeting Point',filter: textFilter() },
-        { dataField: 'price', text: 'price', sort: true ,filter: textFilter()},
-        { dataField: 'minTraveler', text: 'Min Traveler', sort: true, filter: textFilter()},
-        { dataField: 'startDate', text: 'Date',formatter:onDateText },
-        { dataField: 'status', text: 'Status', sort: true, formatter:onDraftAndPublish},
+        { dataField: 'address', text: 'Meeting Point', filter: textFilter() },
+        { dataField: 'price', text: 'price', sort: true, filter: textFilter() },
+        { dataField: 'minTraveler', text: 'Min Traveler', sort: true, filter: textFilter() },
+        { dataField: 'startDate', text: 'Date', formatter: onDateText },
+        { dataField: 'status', text: 'Status', sort: true, formatter: onDraftAndPublish },
         { dataField: 'Action', text: 'Action', formatter: actionList },
     ];
     // useEffect(() => {
@@ -125,7 +132,8 @@ function PackageDetails() {
             <NoActionBanner />
             <Card className="bg-secondary shadow mb-">
                 <CardBody>
-                    <DataTable columns={columns} data={packages} defaultSorted={defaultSorted} />
+                    {isUpdate ? <PackageUpdate pckg={updateData} pkgId={pkgId} setIsUpdate={setIsUpdate}/>:
+                    <DataTable columns={columns} data={packages} defaultSorted={defaultSorted} /> }
                 </CardBody>
             </Card>
         </>

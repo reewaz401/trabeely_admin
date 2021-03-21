@@ -7,16 +7,20 @@ export const PackagesContext = createContext()
 
 const PackagesContextProvider = ({ children }) => {
   const [packages, setPackages] = useState([])
-  
+
   useEffect(() => {
     permissionController()
   }, [])
   const permissionController = async () => {
-    let permission = await PermissionHandler();
-    if (permission.data.type === "admin") {
-       getAllPackages(); //for admin
-    } else {
-       getPackagesByUser();//for agent
+    try {
+      let permission = await PermissionHandler();
+      if (permission.data.type === "admin") {
+        getAllPackages(); //for admin
+      } else {
+        getPackagesByUser();//for agent
+      }
+    } catch (error) {
+
     }
   }
 

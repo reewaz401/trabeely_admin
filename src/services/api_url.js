@@ -41,9 +41,11 @@ module.exports = {
     PRE_REGISTER_GET:BASE_URI+"/auth/business-detail",
     APPROVE_PRE_REGISTER:BASE_URI+"/auth/approve-business/", //{id}
     //Users
+    GET_USER_PROFILE:BASE_URI+"/users/user-profile",
     USERS_GET:BASE_URI+"/users",
     USERS_ADD_API:BASE_URI+"/users/user-add",
     USER_DELETE_API:BASE_URI+"/users/delete/",//{id}
-    USER_UPDATE_API:BASE_URI+"/users/update"
+    USER_UPDATE_API:BASE_URI+"/users/update",
+    USER_UPDATE_PASSWORD_API:BASE_URI+"/users/update-password"
 
 }

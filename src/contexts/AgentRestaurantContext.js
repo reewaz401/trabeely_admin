@@ -12,11 +12,15 @@ const RestaurantContextProvider = ({ children }) => {
     permissionController()
   }, [])
   const permissionController = async () => {
-    let permission = await PermissionHandler();
-    if (permission.data.type === "admin") {
-      getAllRestaurant(); //for admin
-    } else {
-      getRestaurantByUser();//for agent
+    try {
+      let permission = await PermissionHandler();
+      if (permission.data.type === "admin") {
+        getAllRestaurant(); //for admin
+      } else {
+        getRestaurantByUser();//for agent
+      }
+    } catch (error) {
+      
     }
   }
 

@@ -71,7 +71,7 @@ const Admin = (props) => {
     } else if (granted === "restaurant") {
      return getTextHeaderName(restaurantRoutes);
     }
-    return "loading . . . ";
+    return "loading . . .";
   };
 
   return (
@@ -133,12 +133,13 @@ const Admin = (props) => {
           <ProtectedRoute path="/app/club-view" component={ClubDetails} />
         <ProtectedRoute path="/app/profile/" component={Profile} /> */}
           <ProtectedRoute path="/app/profile/" component={Profile} />
-          {granted === undefined && <Redirect from="*" to="" />}
+          {granted === undefined && <Redirect from="*" to="/" />}
           {granted === "admin" && getRoutes(adminRoutes, granted)}
           {granted === "travel" && getRoutes(travelRoutes, granted)}
           {granted === "hotel" && getRoutes(hotelRoutes, granted)}
           {granted === "restaurant" && getRoutes(restaurantRoutes, granted)}
           {granted === "club" && getRoutes(clubRoutes, granted)}
+
         </Switch>
         {/* <Container fluid>
           <AdminFooter />

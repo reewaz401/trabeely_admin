@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, Switch, Redirect } from "react-router-dom";
+import { useLocation, Switch, Redirect, Route } from "react-router-dom";
 // reactstrap components
 import { Container, Row, Col } from "reactstrap";
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
