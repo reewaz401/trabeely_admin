@@ -25,7 +25,7 @@ const ValidationSchema = Yup.object().shape({
     overview: Yup.string().required('Field is required'),
     packageType: Yup.string().required('Field is required'),
 })
-function PackageForm({setActiveTab, setPackageId}) {
+function PackageForm({ setActiveTab, setPackageId }) {
 
     const [includes, setIncludes] = useState([]);
     const [validFiles, setValidFiles] = useState([]);
@@ -39,6 +39,7 @@ function PackageForm({setActiveTab, setPackageId}) {
         people: 0,
         discount: 0,
     }
+
     const [groupDiscount, setGroupDiscount] = useState([GroupDiscountModel]);
     const onImageSelectChange = (imageList, addUpdateIndex) => {
         // data for submit
@@ -49,7 +50,7 @@ function PackageForm({setActiveTab, setPackageId}) {
     };
 
     const onAddPackage = async (values, actions) => {
-        
+
         if (validFiles.length == 0) {
             addToast("You have not selected any images !", {
                 appearance: "error",
@@ -84,10 +85,6 @@ function PackageForm({setActiveTab, setPackageId}) {
                     actions.resetForm();
                     setPackageId(result.data.current_save_id);
                     setActiveTab("2")
-                    addToast("Packages Added", {
-                        appearance: "success",
-                        autoDismiss: true,
-                    });
                 }
             } catch (error) {
                 if (error.response) {
@@ -122,6 +119,7 @@ function PackageForm({setActiveTab, setPackageId}) {
                         duration: '',
                         cancelPolicy: ``,
                         minTraveler: '',
+                        isChangeDate: false,
                         overview: '',
                         packageType: ''
                     }}
@@ -247,6 +245,19 @@ function PackageForm({setActiveTab, setPackageId}) {
                                             </Col>
                                         </Row>
                                         <Row>
+                                            <Col lg="4">
+                                                <FormGroup>
+                                                    <label className="form-control-label" for="changedate">
+                                                        Are you flexible to let user change booking date  </label>
+                                                      <span className="pl-lg-4"> 
+                                                          <Field 
+                                                        id="changedate"
+                                                        type="checkbox"
+                                                        className='form-check-input'
+                                                        name="isChangeDate" />  
+                                             {props.values.isChangeDate ? "Yes": "No"}</span>
+                                                </FormGroup>
+                                            </Col>
                                             <Col lg="12">
                                                 <FormGroup>
                                                     <label className="form-control-label">Overview </label>
@@ -264,7 +275,6 @@ function PackageForm({setActiveTab, setPackageId}) {
                                                     ) : null}
                                                 </FormGroup>
                                             </Col>
-
                                         </Row>
                                         <hr className="my-4" />
                                         <h6 className="heading-small text-muted mb-4"> Image Section</h6>
@@ -430,6 +440,7 @@ function PackageForm({setActiveTab, setPackageId}) {
                                                     <label className="form-control-label">
                                                         Cancellation Policy </label>
                                                     <select onChange={props.handleChange} name='cancelPolicy' className='form-control'>
+                                                        <option value="">Select Cancel Policy</option>
                                                         <option value="One day before check in (6 pm)">One day before check in (6 pm)</option>
                                                         <option value="Two day before check in (6 pm)">Two day before check in (6 pm)</option>
                                                     </select>
@@ -446,15 +457,15 @@ function PackageForm({setActiveTab, setPackageId}) {
                                 <div className="text-left">
                                     {isPrice ? (
                                         <>
-                                        <button className="btn btn-primary" onClick={(e) => setIsPrice(false)} type="button">
-                                            Back </button>
+                                            <button className="btn btn-primary" onClick={(e) => setIsPrice(false)} type="button">
+                                                Back </button>
                                             <button className="btn btn-primary" type="submit">
                                                 Confirm</button>
-                                        </>) : 
+                                        </>) :
                                         <button className="btn btn-primary" onClick={(e) => setIsPrice(true)} type="button">
-                                        Next
+                                            Next
                                         </button>
-                                         }
+                                    }
                                 </div>
                             </div>
 

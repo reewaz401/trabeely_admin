@@ -22,7 +22,7 @@ const Header = () => {
                           Users
                         </CardTitle>
                         <span className="h2 font-weight-bold mb-0">
-                        Total User:  350,897
+                        Total User: 0
                         </span>
                       </div>
                       <Col className="col-auto">
@@ -51,7 +51,7 @@ const Header = () => {
                         >
                         Packages
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">2,356</span>
+                        <span className="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -79,7 +79,7 @@ const Header = () => {
                         >
                           Hotels
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">924</span>
+                        <span className="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -107,7 +107,7 @@ const Header = () => {
                         >
                           Restaurants
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">49,65%</span>
+                        <span className="h2 font-weight-bold mb-0">0%</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-info text-white rounded-circle shadow">

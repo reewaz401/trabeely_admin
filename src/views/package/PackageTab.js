@@ -37,7 +37,6 @@ const PackageTab = () => {
               <TabPane tabId="1">
                 <PackageForm activeTab={activeTab} setActiveTab={setActiveTab} setPackageId={setPackageId} />
               </TabPane>
-
               {packageId !== "" ?
                 <TabPane tabId="2">
                   <ItineraryForm activeTab={activeTab} setActiveTab={setActiveTab} packageId={packageId} />

@@ -14,20 +14,17 @@ import Select from 'react-select'
 import { HotelContext } from '../../contexts/HotelContext'
 import { ROOM_TYPE } from '../../MultipleOption'
 const ValidationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    totalRoom: Yup.string().required('Total room is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('Country is required'),
-    hotelDesc: Yup.string().required('Description is required'),
+    price: Yup.string().required('Price is required'),
+    numberOfRoom: Yup.string().required('Total room is required'),
+    seat: Yup.string().required('seat is required'),
 })
 
-function HotelRoomForm() {
+function HotelRoomForm({hotelId}) {
     const [validFiles, setValidFiles] = useState([]);
     const { addToast, removeAllToasts } = useToasts()
     const [images, setImages] = useState([]);
-    const [hotelId, setHotelId] = useState(null)
+    const [roomType, setRoomType] = useState("");
     const maxNumber = 10;
-    const { hotels } = useContext(HotelContext)
     let obj = {};
     let arr = [];
     const newObj = (value, label) => {
@@ -44,13 +41,9 @@ function HotelRoomForm() {
         setValidFiles(file)
         setImages(imageList);
     };
-    useEffect(() => {
-        hotels.map((option, i) =>
-            newObj(option._id, option.name)
-        );
-    }, [arr])
 
     const onAddTrigger = async (values, actions) => {
+   
         if (validFiles.length == 0) {
             addToast("You have not selected any images !", {
                 appearance: "error",
@@ -59,6 +52,8 @@ function HotelRoomForm() {
         } else {
             const formData = new FormData();
             formData.append("event", "room");
+            formData.append("hotelId", hotelId);
+            formData.append("type", roomType);
             //Package Image Arrary
             Array.from(validFiles).map(function (value, index) {
                 formData.append("picture", validFiles[index]);
@@ -71,7 +66,7 @@ function HotelRoomForm() {
                 let result = await axios.post(HOTEL_ROOM_ADD_API, formData);
                 if (result.data.success) {
                     removeAllToasts()
-                    addToast("Hotel Added", {
+                    addToast("Room Added. Add more if you want to", {
                         appearance: "success",
                         autoDismiss: true,
                     });
@@ -88,24 +83,17 @@ function HotelRoomForm() {
         }
 
     }
-    const onSelectHotelOption = (hotel) => {
-        setHotelId(hotel.value)
-    }
     const onSelectRoomType = (roomType) => {
-        setHotelId(roomType.value)
+        setRoomType(roomType.value)
     }
     return (
         <Card className="bg-secondary shadow mb-4">
             <CardBody>
                 <Formik
                     initialValues={{
-                        name: '',
-                        totalRoom: '',
-                        address: '',
-                        country: '',
-                        // checkIn: '',
-                        // checkOut: '',
-                        hotelDesc: ''
+                        price:"",
+                        numberOfRoom: '',
+                        seat: '',
                     }}
                     validationSchema={ValidationSchema}
                     onSubmit={(values, actions) => {
@@ -117,7 +105,7 @@ function HotelRoomForm() {
                                 Hotel Room Information</h6>
                             <div className="pl-lg-4">
                                 <Row>
-                                    <Col lg="6">
+                                    {/* <Col lg="6">
                                         <FormGroup>
                                             <label className="form-control-label"
                                                 htmlFor="input-username" >Hotel Name</label>
@@ -125,14 +113,14 @@ function HotelRoomForm() {
                                                 onChange={onSelectHotelOption}
                                                 options={arr} />
                                         </FormGroup>
-                                    </Col>
+                                    </Col> */}
                                     <Col lg="6">
                                         <FormGroup>
                                             <label className="form-control-label"
                                                 htmlFor="input-price"
                                             >Room Type</label>
                                             <Select
-                                                onChange={onSelectHotelOption}
+                                                onChange={onSelectRoomType}
                                                 options={ROOM_TYPE} />
                                         </FormGroup>
                                     </Col>
@@ -157,7 +145,7 @@ function HotelRoomForm() {
                                         <FormGroup>
                                             <label className="form-control-label"
                                                 htmlFor="input-address">
-                                                Room  </label>
+                                                Number of room  </label>
                                             <Field
                                                 name='numberOfRoom'
                                                 className='form-control'

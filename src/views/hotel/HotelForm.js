@@ -19,9 +19,10 @@ const ValidationSchema = Yup.object().shape({
     address: Yup.string().required('Address is required'),
     country: Yup.string().required('Country is required'),
     contact: Yup.string().required('Contact is required'),
+    cancelPolicy: Yup.string().required('Cancel Policy is required'),
     hotelDesc: Yup.string().required('Description is required')
 })
-function HotelForm() {
+function HotelForm({setActiveTab, setHotelId}) {
     const [validFiles, setValidFiles] = useState([]);
     const [amenities, setAmenities] = useState([]);
     const { addToast, removeAllToasts } = useToasts()
@@ -68,10 +69,8 @@ function HotelForm() {
                 let result = await axios.post(HOTEL_ADD_API, formData);
                 if (result.data.success) {
                     removeAllToasts()
-                    addToast("Hotels Added", {
-                        appearance: "success",
-                        autoDismiss: true,
-                    });
+                    setHotelId(result.data.current_save_id);
+                    setActiveTab("2")
                 }
             } catch (error) {
                 if (error.response) {
@@ -101,6 +100,7 @@ function HotelForm() {
                         country: '',
                         // checkIn: '',
                         // checkOut: '',
+                        cancelPolicy:'',
                         hotelDesc: '',
                         contact: '',
                         videoUrl: ''
@@ -215,9 +215,7 @@ function HotelForm() {
                                                 value={props.values.videoUrl}
                                                 onChange={props.handleChange}
                                             />
-                                            {props.errors.videoUrl && props.touched.videoUrl ? (
-                                                <small className='form-text text-danger'>{props.errors.videoUrl}</small>
-                                            ) : null}
+                                            
                                         </FormGroup>
                                     </Col>
                                     <Col lg="6">
@@ -235,6 +233,20 @@ function HotelForm() {
                                             ) : null}
                                         </FormGroup>
                                     </Col>
+                                    <Col lg="12">
+                                                <FormGroup>
+                                                    <label className="form-control-label">
+                                                        Cancellation Policy </label>
+                                                    <select onChange={props.handleChange} name='cancelPolicy' className='form-control'>
+                                                        <option value="">Select Cancel Policy</option>
+                                                        <option value="One day before check in (6 pm)">One day before check in (6 pm)</option>
+                                                        <option value="Two day before check in (6 pm)">Two day before check in (6 pm)</option>
+                                                    </select>
+                                                    {props.errors.cancelPolicy && props.touched.cancelPolicy ? (
+                                                        <small className='form-text text-danger'>{props.errors.cancelPolicy}</small>
+                                                    ) : null}
+                                                </FormGroup>
+                                            </Col>
                                 </Row>
                                 {/* //For check in check out  */}
                                 {/* <h6 className="heading-small text-muted mb-4"> Amenities</h6>
@@ -255,7 +267,9 @@ function HotelForm() {
 
                                         </FormGroup>
                                     </Col>
+                                    
                                 </Row> */}
+                                
                                 <hr className="my-4" />
                                 <h6 className="heading-small text-muted mb-4"> Image Section</h6>
                                     <Row>

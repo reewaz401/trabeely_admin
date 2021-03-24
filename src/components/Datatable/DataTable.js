@@ -3,11 +3,11 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationProvider, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter, selectFilter } from 'react-bootstrap-table2-filter';
 import { Col } from 'reactstrap';
-import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+import ToolkitProvider, { Search, ColumnToggle } from 'react-bootstrap-table2-toolkit';
 
 
 const DataTable = ({ columns, data, defaultSorted }) => {
-
+  const { ToggleList } = ColumnToggle;
   const { SearchBar } = Search;
   const options = {
     custom: true,
@@ -24,12 +24,31 @@ const DataTable = ({ columns, data, defaultSorted }) => {
     showTotal: true,
     totalSize: data.length
   };
+  const headerSortingClasses = (column, sortOrder, isLastSorting, colIndex) => (
+    sortOrder === 'asc' ? 'demo-sorting-asc' : 'demo-sorting-desc'
+  );
+  
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
-    //  console.log(row);
+      //  console.log(row);
     }
   };
+  const rowStyle2 = (row, rowIndex) => {
+    const style = {};
+    if (row.id > 3) {
+      style.backgroundColor = '#c8e6c9';
+    } else {
+      style.backgroundColor = '#00BFFF';
+    }
   
+    if (rowIndex > 2) {
+      style.fontWeight = 'bold';
+      style.color = 'white';
+    }
+  
+    return style;
+  };
+  // const rowStyle = { backgroundColor: '#c8e6c9', height: '70px', fontSize:"100px"};
   const contentTable = ({ paginationProps, paginationTableProps }) => (
     <div>
       <ToolkitProvider
@@ -41,13 +60,14 @@ const DataTable = ({ columns, data, defaultSorted }) => {
         {
           props => (
             <div>
-              <SearchBar 
-               className="col-md-12"
-               style={ { width: '500px' } }
-               placeholder="Search"
-              {...props.searchProps} />
+              <hr />
+              <SearchBar
+                className="col-md-12"
+                style={{ width: '300px' }}
+                placeholder="Search"
+                {...props.searchProps} />
               <BootstrapTable
-                classes="table-responsive table-dark"
+                classes="table-responsive table-dark table-f"
                 keyField="id"
                 data={data}
                 columns={columns}
@@ -67,13 +87,13 @@ const DataTable = ({ columns, data, defaultSorted }) => {
   );
 
   return (
-      <PaginationProvider
-        pagination={
-          paginationFactory(options)
-        }
-      >
-        {contentTable}
-      </PaginationProvider>
+    <PaginationProvider
+      pagination={
+        paginationFactory(options)
+      }
+    >
+      {contentTable}
+    </PaginationProvider>
   );
 }
 
