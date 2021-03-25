@@ -49,16 +49,26 @@ const Admin = (props) => {
       }
     });
   };
-  const getTextHeaderName = (header) => {
-    for (let i = 0; i < header.length; i++) {
-      if (
-        props.location.pathname.indexOf(header[i].layout + header[i].path) !==
-        -1
-      ) {
-        return header[i].name;
-      }
-    }
-  }
+  // const getTextHeaderName = (routess) => {
+  //   for (let i = 0; i < routess.length; i++) {
+  //       return routess[i].name;
+  //   }
+  // };
+  const getTextHeaderName = (routess) => {
+    for (let i = 0; i < routess.length; i++) {
+            return routess[i].name;
+        }
+    // for (let i = 0; i < routess.length; i++) {
+    //   if (
+    //     props.location.pathname.indexOf(routess[i].layout + routess[i].path) !==
+    //     -1
+    //   ) {
+    //     return routess[i].name;
+    //   }
+    // }
+    // return "Brand";
+  };
+
   const getBrandText = (path) => {
     if (granted === "admin") {
      return getTextHeaderName(adminRoutes);
@@ -67,11 +77,10 @@ const Admin = (props) => {
     } else if (granted === "hotel") {
      return getTextHeaderName(hotelRoutes);
     } else if (granted === "club") {
-     return getTextHeaderName(clubRoutes);
+    return  getTextHeaderName(clubRoutes);
     } else if (granted === "restaurant") {
-     return getTextHeaderName(restaurantRoutes);
+    return  getTextHeaderName(restaurantRoutes);
     }
-    return "loading . . .";
   };
 
   return (
@@ -80,7 +89,7 @@ const Admin = (props) => {
         {...props}
         routes={adminRoutes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/app/index",
           imgSrc: `${process.env.PUBLIC_URL}/res/img/logo7.png`,
           imgAlt: "...",
         }}
@@ -89,7 +98,7 @@ const Admin = (props) => {
         {...props}
         routes={travelRoutes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/app/index",
           imgSrc: `${process.env.PUBLIC_URL}/res/img/logo7.png`,
           imgAlt: "...",
         }}
@@ -98,7 +107,7 @@ const Admin = (props) => {
         {...props}
         routes={restaurantRoutes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/app/index",
           imgSrc: `${process.env.PUBLIC_URL}/res/img/logo7.png`,
           imgAlt: "...",
         }}
@@ -107,7 +116,7 @@ const Admin = (props) => {
         {...props}
         routes={clubRoutes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/app/index",
           imgSrc: `${process.env.PUBLIC_URL}/res/img/logo7.png`,
           imgAlt: "...",
         }}
@@ -116,7 +125,7 @@ const Admin = (props) => {
         {...props}
         routes={hotelRoutes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/app/index",
           imgSrc: `${process.env.PUBLIC_URL}/res/img/logo7.png`,
           imgAlt: "...",
         }}
@@ -133,12 +142,12 @@ const Admin = (props) => {
           <ProtectedRoute path="/app/club-view" component={ClubDetails} />
         <ProtectedRoute path="/app/profile/" component={Profile} /> */}
           <ProtectedRoute path="/app/profile/" component={Profile} />
-          {granted === undefined && <Redirect from="*" to="/" />}
           {granted === "admin" && getRoutes(adminRoutes, granted)}
           {granted === "travel" && getRoutes(travelRoutes, granted)}
           {granted === "hotel" && getRoutes(hotelRoutes, granted)}
           {granted === "restaurant" && getRoutes(restaurantRoutes, granted)}
           {granted === "club" && getRoutes(clubRoutes, granted)}
+          {granted === undefined && <Redirect from="*" to="/" />}
 
         </Switch>
         {/* <Container fluid>

@@ -44,15 +44,12 @@ function UsersDetails() {
         try {
             setIsLoading(true)
             let result = await axios.get(USERS_GET)
-            console.log(result)
             if (result.data.success) {
                 setIsLoading(false)
-
                 setUsers(result.data.users)
             }
         } catch (error) {
             setIsLoading(false)
-
             if (error.response) {
                 addToast(error.response.data.error, {
                     appearance: "error",

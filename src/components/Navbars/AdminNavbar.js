@@ -6,12 +6,6 @@ import {
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Form,
-  FormGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  InputGroup,
   Navbar,
   Nav,
   Container,
@@ -44,7 +38,7 @@ const AdminNavbar = (props) => {
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
             to="/"
           >
-            <h2 className="text-white">{props.brandText}</h2>
+          {props.brandText}
           </Link>
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>

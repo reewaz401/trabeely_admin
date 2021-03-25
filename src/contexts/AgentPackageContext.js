@@ -38,7 +38,6 @@ const PackagesContextProvider = ({ children }) => {
   const getAllPackages = async () => {
     try {
       let result = await axios.get(PACKAGE_ALL_API)
-      console.log(result)
       if (result.data.success) {
         setPackages(result.data.packages)
 

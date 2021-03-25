@@ -37,7 +37,6 @@ const HotelContextProvider = ({ children }) => {
   const getAllHotels = async () => {
     try {
       let result = await axios.get(HOTEL_ALL_API)
-      console.log(result)
       if (result.data.success) {
         setHotels(result.data.data)
       }

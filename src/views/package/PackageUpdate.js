@@ -26,7 +26,6 @@ function PackageUpdate({ pckg, pkgId, setIsUpdate }) {
     }
     const [groupDiscount, setGroupDiscount] = useState([GroupDiscountModel]);
     const onUpdate = async (values, actions) => {
-        console.log(pckg);
         return
         const formData = new FormData();
         formData.append("event", "package");
