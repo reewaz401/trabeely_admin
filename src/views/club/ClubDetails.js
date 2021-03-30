@@ -9,6 +9,7 @@ import NoActionBanner from 'components/Headers/NoActionBanner'
 import { useToasts } from 'react-toast-notifications'
 import { confirmAlert } from "react-confirm-alert";
 import { ClubContext } from 'contexts/AgentClubContext'
+import TitlePage from 'components/Headers/TitlePage'
 
 function ClubDetails() {
     const { addToast } = useToasts()
@@ -58,8 +59,8 @@ function ClubDetails() {
         return (
             <>
                 <div style={{width:"200px"}}>
-                    <Button className="btn btn-info button" onClick={(e) => alert(rowIndex)}><i class="fas fa-eye"></i></Button>
-                    <Button className="btn btn-danger button" onClick={(e) => confirmDelete(row._id, row.title)}><i class="fas fa-trash"></i></Button>
+                     <button className="btn-custominfo"   onClick={(e) => alert(rowIndex)}><i class="fas fa-eye"></i></button>
+                     <button className="btn-customdanger" onClick={(e) => confirmDelete(row._id, row.title)}><i class="fas fa-trash"></i></button>
                 </div>
             </>
         );
@@ -81,6 +82,7 @@ function ClubDetails() {
             <NoActionBanner />
             <Card className="bg-secondary shadow mb-">
                 <CardBody>
+                    <TitlePage title="Club List"/>
                     <DataTable columns={columns} data={clubs} defaultSorted={defaultSorted} />
                 </CardBody>
             </Card>

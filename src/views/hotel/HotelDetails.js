@@ -11,6 +11,7 @@ import { confirmAlert } from "react-confirm-alert";
 import moment from 'moment'
 import 'moment-precise-range-plugin';
 import { HotelContext } from 'contexts/HotelContext'
+import TitlePage from 'components/Headers/TitlePage'
 
 function HotelDetails() {
     const { addToast } = useToasts()
@@ -67,8 +68,8 @@ function HotelDetails() {
         return (
             <>
                 <div style={{width:"200px"}}>
-                    <Button className="btn btn-info button" onClick={(e) => alert(rowIndex)}><i class="fas fa-eye"></i></Button>
-                    <Button className="btn btn-danger button" onClick={(e) => confirmDelete(row._id, row.title)}><i class="fas fa-trash"></i></Button>
+                    <button className="btn-custominfo" onClick={(e) => alert(rowIndex)}><i class="fas fa-eye"></i></button>
+                    <button className="btn-customdanger" onClick={(e) => confirmDelete(row._id, row.title)}><i class="fas fa-trash"></i></button>
                 </div>
             </>
         );
@@ -91,6 +92,8 @@ function HotelDetails() {
             <NoActionBanner />
             <Card className="bg-secondary shadow mb-">
                 <CardBody>
+                <TitlePage title="Hotel List" />
+
                     <DataTable columns={columns} data={hotels} />
                 </CardBody>
             </Card>

@@ -101,8 +101,8 @@ function UsersDetails() {
     }];
     const actionOptionRow = (cell, row, rowIndex, formatExtraData) => {
         return <>
-            <Button className="btn btn-info button" onClick={(e) => alert(rowIndex)}><i class="fas fa-edit"></i></Button>
-            <Button className="btn btn-danger button" onClick={(e) => confirmDelete(row._id, row.fullname)}><i class="fas fa-trash"></i></Button>
+            <button className="btn-custominfo" onClick={(e) => alert(rowIndex)}><i class="fas fa-edit"></i></button>
+             <button className="btn-customdanger" onClick={(e) => confirmDelete(row._id, row.fullname)}><i class="fas fa-trash"></i></button>
         </>
     }
     const userRoleSelection = (cell, row, rowIndex, formatExtraData) => {

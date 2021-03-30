@@ -111,3 +111,34 @@ table tr td{
     height: 35em;
     overflow: auto;
   }
+
+  .btn-customdone{
+    width:32px;
+    height:32px;
+    background:#2db36c;
+    border-radius: 10%;
+    text-decoration: none;
+    border: none;
+    color:white;
+    margin:5px;
+  }
+  .btn-customdanger{
+    width:32px;
+    height:32px;
+    background:#f5365c;
+    border-radius: 10%;
+    text-decoration: none;
+    border: none;
+    color:white;
+    margin:5px;
+  }
+  .btn-custominfo{
+    width:32px;
+    height:32px;
+    background:#11cdef;
+    border-radius: 10%;
+    color:white;
+    text-decoration: none;
+    border: none;
+    margin:5px;
+  }

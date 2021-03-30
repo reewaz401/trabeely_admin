@@ -2,6 +2,7 @@
 import Index from "views/Index.js";
 import ClubTab from "views/club/ClubTab";
 import ClubDetails from "views/club/ClubDetails";
+import BookingDetails from "views/booking/BoookingDetails";
 var clubRoutes = [
   {
     path: "/dashboard",
@@ -23,6 +24,13 @@ var clubRoutes = [
     icon: "fas fa-glass-cheers text-orange",
     component: ClubDetails,
     layout: "/app",
+  },
+  {
+    path: "/booking",
+    name: "Booking",
+    icon: "fas fa-map-marker-alt text-blue",
+    component: BookingDetails,
+    layout: "/app"
   },
 ];
 

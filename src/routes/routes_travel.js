@@ -1,4 +1,5 @@
 
+import BookingDetails from "views/booking/BoookingDetails";
 import Index from "views/Index.js";
 import PackageDetails from "views/package/PackageDetails";
 import PackageTab from "views/package/PackageTab";
@@ -23,7 +24,13 @@ var travelRoutes = [
     icon: "fas fa-route text-blue",
     component: PackageDetails,
     layout: "/app",
-  }
+  },{
+    path: "/booking",
+    name: "Booking",
+    icon: "fas fa-map-marker-alt text-blue",
+    component: BookingDetails,
+    layout: "/app"
+  },
 ];
 
 export default travelRoutes;

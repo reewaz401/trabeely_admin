@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
 // core components
@@ -14,21 +14,20 @@ import restaurantRoutes from "../routes/routes_restaurant";
 import clubRoutes from "../routes/routes_club";
 import hotelRoutes from "../routes/routes_hotel";
 import ProtectedRoute from "ProtectedRoute";
-import PackageDetails from "views/package/PackageDetails";
-import HotelDetails from "views/hotel/HotelDetails";
-import RestaurantDetails from "views/restaurant/RestaurantDetails";
-import ClubDetails from "views/club/ClubDetails";
-import PermissionHandler from "services/permisionHandler";
+// import PackageDetails from "views/package/PackageDetails";
+// import HotelDetails from "views/hotel/HotelDetails";
+// import RestaurantDetails from "views/restaurant/RestaurantDetails";
+// import ClubDetails from "views/club/ClubDetails";
 import Profile from "views/setting/Profile";
+import { PermissionContext } from "contexts/PermissionContext";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
-  // const {authUser} = useContext(AuthContext)
-  const [granted, setGranted] = useState("")
-  React.useEffect(() => {
-    PermissionHandler().then(result => setGranted(result.data.type)).catch(err => console.log(err))
-  }, [])
+  const {granted} = useContext(PermissionContext)
+  // React.useEffect(() => {
+  //   PermissionHandler().then(result => setGranted(result.data.type)).catch(err => console.log(err))
+  // }, [])
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;

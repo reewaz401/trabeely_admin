@@ -85,7 +85,7 @@ var adminRoutes =[
     {
       path: "/booking",
       name: "Booking",
-      icon: "fas fa-images text-blue",
+      icon: "fas fa-map-marker-alt text-blue",
       component: BookingDetails,
       layout: "/app"
     },

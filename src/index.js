@@ -19,9 +19,11 @@ import HotelContextProvider from "contexts/HotelContext";
 import RestaurantContextProvider from "contexts/AgentRestaurantContext";
 import PreloaderContextProvider from "contexts/PreLoaderContext";
 import ClubContextProvider from "contexts/AgentClubContext";
+import PermissionContextProvider from "contexts/PermissionContext";
 ReactDOM.render(
-  <PreloaderContextProvider>
-    <PackagesContextProvider>
+  <PermissionContextProvider>
+    <PreloaderContextProvider>
+      <PackagesContextProvider>
         <HotelContextProvider>
           <RestaurantContextProvider>
             <ClubContextProvider>
@@ -39,8 +41,9 @@ ReactDOM.render(
             </ClubContextProvider>
           </RestaurantContextProvider>
         </HotelContextProvider>
-    </PackagesContextProvider>
-  </PreloaderContextProvider>
+      </PackagesContextProvider>
+    </PreloaderContextProvider>
+  </PermissionContextProvider>
   ,
   document.getElementById("root")
 );

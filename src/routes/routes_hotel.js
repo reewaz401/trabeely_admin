@@ -2,6 +2,7 @@
 import Index from "views/Index.js";
 import HotelTab from "views/hotel/HotelTab";
 import HotelDetails from "views/hotel/HotelDetails";
+import BookingDetails from "views/booking/BoookingDetails";
 var hotelRoutes = [
   {
     path: "/dashboard",
@@ -26,7 +27,13 @@ var hotelRoutes = [
     component: HotelDetails,
     layout: "/app",
     access:"hotel"
-  }
+  }, {
+    path: "/booking",
+    name: "Booking",
+    icon: "fas fa-map-marker-alt text-blue",
+    component: BookingDetails,
+    layout: "/app"
+  },
 ];
 
 export default hotelRoutes;

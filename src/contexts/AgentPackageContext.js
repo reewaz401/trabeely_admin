@@ -2,12 +2,10 @@ import React, { createContext, useState, useEffect } from 'react'
 import axios from '../services/axios'
 import { AGENT_PACKAGE_API, PACKAGE_ALL_API } from '../services/api_url'
 import PermissionHandler from 'services/permisionHandler'
-
 export const PackagesContext = createContext()
 
 const PackagesContextProvider = ({ children }) => {
   const [packages, setPackages] = useState([])
-
   useEffect(() => {
     permissionController()
   }, [])

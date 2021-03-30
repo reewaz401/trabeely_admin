@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import axios from '../../services/axios'
 import { PACKAGE_UPDATE_API, PACKAGE_DELETE_API } from '../../services/api_url'
@@ -12,6 +12,7 @@ import moment from 'moment'
 import 'moment-precise-range-plugin';
 import { PackagesContext } from 'contexts/AgentPackageContext'
 import PackageUpdate from './PackageUpdate'
+import TitlePage from 'components/Headers/TitlePage'
 
 function PackageDetails() {
     const { addToast } = useToasts()
@@ -103,8 +104,8 @@ function PackageDetails() {
         return (
             <>
                 <div style={{ width: "250px" }}>
-                    <Button className="btn btn-info button" onClick={(e) => onUpdateChange(row._id, row)}><i class="fas fa-eye"></i></Button>
-                    <Button className="btn btn-danger button" onClick={(e) => confirm(row._id, `Delete this ${row.title}`)}><i class="fas fa-trash"></i></Button>
+                    <button className="btn-custominfo" onClick={(e) => onUpdateChange(row._id, row)}><i class="fas fa-eye"></i></button>
+                    <button className="btn-customdanger" onClick={(e) => confirm(row._id, `Delete this ${row.title}`)}><i class="fas fa-trash"></i></button>
                 </div>
             </>
         );
@@ -132,8 +133,9 @@ function PackageDetails() {
             <NoActionBanner />
             <Card className="bg-secondary shadow mb-">
                 <CardBody>
-                    {isUpdate ? <PackageUpdate pckg={updateData} pkgId={pkgId} setIsUpdate={setIsUpdate}/>:
-                    <DataTable columns={columns} data={packages} defaultSorted={defaultSorted} /> }
+                    <TitlePage title="Package List" />
+                    {isUpdate ? <PackageUpdate pckg={updateData} pkgId={pkgId} setIsUpdate={setIsUpdate} /> :
+                        <DataTable columns={columns} data={packages} defaultSorted={defaultSorted} />}
                 </CardBody>
             </Card>
         </>
