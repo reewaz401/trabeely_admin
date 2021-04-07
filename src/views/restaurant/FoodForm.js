@@ -121,7 +121,7 @@ function FoodForm() {
                                             <Field
                                                 name='foodName'
                                                 className='form-control'
-                                                placeholder='e.g: anapurna hotel'
+                                                placeholder='Enter food name'
                                                 value={props.values.foodName}
                                                 onChange={props.handleChange}
                                             />
@@ -157,7 +157,7 @@ function FoodForm() {
                                             <label className="form-control-label">Youtube Video Link </label>
                                             <Field
                                                 name='videoUrl'
-                                                className='form-control'
+                                                className='form-control' 
                                                 placeholder='Enter Link (embedded code | share link)'
                                                 value={props.values.videoUrl}
                                                 onChange={props.handleChange}

@@ -14,6 +14,9 @@ import { useToasts } from 'react-toast-notifications'
 import ImageUploading from "react-images-uploading";
 import DateTimePicker from 'react-datetime-picker';
 import { includesOption } from '../../MultipleOption'
+import { CountryDropdown } from 'react-country-region-selector';
+
+
 const ValidationSchema = Yup.object().shape({
     title: Yup.string().required('Field is required'),
     price: Yup.string().required('Field is required'),
@@ -27,11 +30,11 @@ const ValidationSchema = Yup.object().shape({
 })
 function PackageForm({ setActiveTab, setPackageId }) {
 
+    const [country, setCountry] = useState("");
     const [includes, setIncludes] = useState([]);
     const [validFiles, setValidFiles] = useState([]);
     const [value, onChange] = useState(new Date());
     const [isPrice, setIsPrice] = useState(false)
-    const [isItinerary, setIsItinerary] = useState(false)
     const { addToast, removeAllToasts } = useToasts()
     const [images, setImages] = useState([]);
     const maxNumber = 10;
@@ -51,21 +54,24 @@ function PackageForm({ setActiveTab, setPackageId }) {
 
     const onAddPackage = async (values, actions) => {
 
-        if (validFiles.length == 0) {
-            addToast("You have not selected any images !", {
-                appearance: "error",
-                autoDismiss: true,
-            });
-        } else if (includes.length == 0) {
-            addToast("You have not included item for package !", {
-                appearance: "error",
-                autoDismiss: true,
-            });
-        } else {
+        // if (validFiles.length == 0) {
+        //     addToast("You have not selected any images !", {
+        //         appearance: "error",
+        //         autoDismiss: true,
+        //     });
+        // } else if (includes.length == 0) {
+        //     addToast("You have not included item for package !", {
+        //         appearance: "error",
+        //         autoDismiss: true,
+        //     });
+        // } else {
+     
             const formData = new FormData();
             formData.append("event", "package");
             formData.append("startDate", value);
+            formData.append("country", country);
             //Includes Array
+           
             for (var i = 0; i < includes.length; i++) {
                 formData.append('includes', includes[i].name);
             }
@@ -97,7 +103,7 @@ function PackageForm({ setActiveTab, setPackageId }) {
             }
         }
 
-    }
+    // }
 
     // multiselect on select and remove
     const onSelect = (selectedList) => {
@@ -107,6 +113,10 @@ function PackageForm({ setActiveTab, setPackageId }) {
     const onRemove = (selectedList) => {
         setIncludes(selectedList);
     };
+    const selectCountry = (val) => {
+        setCountry(val)
+    }
+
     return (
         <Card className="bg-secondary shadow mb-4">
             <CardBody>
@@ -164,6 +174,19 @@ function PackageForm({ setActiveTab, setPackageId }) {
                                                     {props.errors.title && props.touched.title ? (
                                                         <small className='form-text text-danger'>{props.errors.title}</small>
                                                     ) : null}
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg="4">
+                                                <FormGroup>
+                                                    <label className="form-control-label">Country</label>
+                                                    <CountryDropdown
+                                                        className='form-control'
+                                                        value={country}
+                                                        valueType="full"
+                                                        // whitelist={["NP", "US"]}
+                                                        priorityOptions={["NP", "US", "GB"]}
+                                                        onChange={(val) => selectCountry(val)} />
+
                                                 </FormGroup>
                                             </Col>
                                             <Col lg="4">
@@ -245,19 +268,21 @@ function PackageForm({ setActiveTab, setPackageId }) {
                                             </Col>
                                         </Row>
                                         <Row>
+                                         
                                             <Col lg="4">
                                                 <FormGroup>
                                                     <label className="form-control-label" for="changedate">
                                                         Are you flexible to let user change booking date  </label>
-                                                      <span className="pl-lg-4"> 
-                                                          <Field 
-                                                        id="changedate"
-                                                        type="checkbox"
-                                                        className='form-check-input'
-                                                        name="isChangeDate" />  
-                                             {props.values.isChangeDate ? "Yes": "No"}</span>
+                                                    <span className="pl-lg-4">
+                                                        <Field
+                                                            id="changedate"
+                                                            type="checkbox"
+                                                            className='form-check-input'
+                                                            name="isChangeDate" />
+                                                        {props.values.isChangeDate ? "Yes" : "No"}</span>
                                                 </FormGroup>
                                             </Col>
+
                                             <Col lg="12">
                                                 <FormGroup>
                                                     <label className="form-control-label">Overview </label>

@@ -13,17 +13,18 @@ import { useToasts } from 'react-toast-notifications'
 import ImageUploading from "react-images-uploading";
 import Select from "react-select"
 import { AMENITIES } from '../../MultipleOption'
+import { CountryDropdown } from 'react-country-region-selector';
 const ValidationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     totalRoom: Yup.string().required('Total room is required'),
     address: Yup.string().required('Address is required'),
-    country: Yup.string().required('Country is required'),
     contact: Yup.string().required('Contact is required'),
     cancelPolicy: Yup.string().required('Cancel Policy is required'),
     hotelDesc: Yup.string().required('Description is required')
 })
-function HotelForm({setActiveTab, setHotelId}) {
+function HotelForm({ setActiveTab, setHotelId }) {
     const [validFiles, setValidFiles] = useState([]);
+    const [country, setCountry] = useState("");
     const [amenities, setAmenities] = useState([]);
     const { addToast, removeAllToasts } = useToasts()
     const [images, setImages] = useState([]);
@@ -55,6 +56,7 @@ function HotelForm({setActiveTab, setHotelId}) {
         } else {
             const formData = new FormData();
             formData.append("event", "hotel");
+            formData.append("country", country);
             //Amenities Array
             for (var i = 0; i < amenities.length; i++) {
                 formData.append('amenities', amenities[i].value);
@@ -97,10 +99,9 @@ function HotelForm({setActiveTab, setHotelId}) {
                         name: '',
                         totalRoom: '',
                         address: '',
-                        country: '',
                         // checkIn: '',
                         // checkOut: '',
-                        cancelPolicy:'',
+                        cancelPolicy: '',
                         hotelDesc: '',
                         contact: '',
                         videoUrl: ''
@@ -148,16 +149,14 @@ function HotelForm({setActiveTab, setHotelId}) {
                                     <Col lg="2">
                                         <FormGroup>
                                             <label className="form-control-label">Country  </label>
-                                            <Field
-                                                name='country'
+
+                                            <CountryDropdown
                                                 className='form-control'
-                                                placeholder='Enter country'
-                                                value={props.values.country}
-                                                onChange={props.handleChange}
-                                            />
-                                            {props.errors.country && props.touched.country ? (
-                                                <small className='form-text text-danger'>{props.errors.country}</small>
-                                            ) : null}
+                                                value={country}
+                                                valueType="full"
+                                                // whitelist={["NP", "US"]}
+                                                priorityOptions={["NP", "US", "GB"]}
+                                                onChange={(val) => setCountry(val)} />
                                         </FormGroup>
                                     </Col>
                                     <Col lg="4">
@@ -215,7 +214,7 @@ function HotelForm({setActiveTab, setHotelId}) {
                                                 value={props.values.videoUrl}
                                                 onChange={props.handleChange}
                                             />
-                                            
+
                                         </FormGroup>
                                     </Col>
                                     <Col lg="6">
@@ -234,19 +233,19 @@ function HotelForm({setActiveTab, setHotelId}) {
                                         </FormGroup>
                                     </Col>
                                     <Col lg="12">
-                                                <FormGroup>
-                                                    <label className="form-control-label">
-                                                        Cancellation Policy </label>
-                                                    <select onChange={props.handleChange} name='cancelPolicy' className='form-control'>
-                                                        <option value="">Select Cancel Policy</option>
-                                                        <option value="One day before check in (6 pm)">One day before check in (6 pm)</option>
-                                                        <option value="Two day before check in (6 pm)">Two day before check in (6 pm)</option>
-                                                    </select>
-                                                    {props.errors.cancelPolicy && props.touched.cancelPolicy ? (
-                                                        <small className='form-text text-danger'>{props.errors.cancelPolicy}</small>
-                                                    ) : null}
-                                                </FormGroup>
-                                            </Col>
+                                        <FormGroup>
+                                            <label className="form-control-label">
+                                                Cancellation Policy </label>
+                                            <select onChange={props.handleChange} name='cancelPolicy' className='form-control'>
+                                                <option value="">Select Cancel Policy</option>
+                                                <option value="One day before check in (6 pm)">One day before check in (6 pm)</option>
+                                                <option value="Two day before check in (6 pm)">Two day before check in (6 pm)</option>
+                                            </select>
+                                            {props.errors.cancelPolicy && props.touched.cancelPolicy ? (
+                                                <small className='form-text text-danger'>{props.errors.cancelPolicy}</small>
+                                            ) : null}
+                                        </FormGroup>
+                                    </Col>
                                 </Row>
                                 {/* //For check in check out  */}
                                 {/* <h6 className="heading-small text-muted mb-4"> Amenities</h6>
@@ -269,60 +268,60 @@ function HotelForm({setActiveTab, setHotelId}) {
                                     </Col>
                                     
                                 </Row> */}
-                                
+
                                 <hr className="my-4" />
                                 <h6 className="heading-small text-muted mb-4"> Image Section</h6>
-                                    <Row>
-                                        <Col md="12">
-                                            <FormGroup>
-                                                <ImageUploading
-                                                    multiple
-                                                    value={images}
-                                                    onChange={onImageSelectChange}
-                                                    maxNumber={maxNumber}
-                                                    dataURLKey="data_url"
-                                                >
-                                                    {({
-                                                        imageList,
-                                                        onImageUpload,
-                                                        onImageUpdate,
-                                                        onImageRemove,
-                                                    }) => (
-                                                        <>
-                                                            <Row>
-                                                                <Col md="2">
-                                                                    <div
-                                                                        onClick={onImageUpload}>
-                                                                        <a className="btn btn-primary"> <span className="text-white">Open image</span></a>
-                                                                    </div>
-                                                                </Col>
-                                                                <Col md="8">
-                                                                    {imageList.length != 0 ?
-                                                                        <div className="form-group multi-preview">
-                                                                            {imageList.map((image, index) => (
-                                                                                <Row>
-                                                                                    <div className="col-md-8">
-                                                                                        <CardTitle className="text-uppercase text-muted mb-0">
-                                                                                            <img className="img-fluid" alt="Responsive image" src={image.data_url} alt="" width="100" />
-                                                                                        </CardTitle>
-                                                                                    </div>
-                                                                                    <Col className="col-auto">
-                                                                                        <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
-                                                                                        <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
+                                <Row>
+                                    <Col md="12">
+                                        <FormGroup>
+                                            <ImageUploading
+                                                multiple
+                                                value={images}
+                                                onChange={onImageSelectChange}
+                                                maxNumber={maxNumber}
+                                                dataURLKey="data_url"
+                                            >
+                                                {({
+                                                    imageList,
+                                                    onImageUpload,
+                                                    onImageUpdate,
+                                                    onImageRemove,
+                                                }) => (
+                                                    <>
+                                                        <Row>
+                                                            <Col md="2">
+                                                                <div
+                                                                    onClick={onImageUpload}>
+                                                                    <a className="btn btn-primary"> <span className="text-white">Open image</span></a>
+                                                                </div>
+                                                            </Col>
+                                                            <Col md="8">
+                                                                {imageList.length != 0 ?
+                                                                    <div className="form-group multi-preview">
+                                                                        {imageList.map((image, index) => (
+                                                                            <Row>
+                                                                                <div className="col-md-8">
+                                                                                    <CardTitle className="text-uppercase text-muted mb-0">
+                                                                                        <img className="img-fluid" alt="Responsive image" src={image.data_url} alt="" width="100" />
+                                                                                    </CardTitle>
+                                                                                </div>
+                                                                                <Col className="col-auto">
+                                                                                    <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
+                                                                                    <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
 
-                                                                                    </Col>
-                                                                                </Row>
-                                                                            ))}
-                                                                        </div> : "Image not selected."}
+                                                                                </Col>
+                                                                            </Row>
+                                                                        ))}
+                                                                    </div> : "Image not selected."}
 
-                                                                </Col>
-                                                            </Row>
-                                                        </>
-                                                    )}
-                                                </ImageUploading>
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
+                                                            </Col>
+                                                        </Row>
+                                                    </>
+                                                )}
+                                            </ImageUploading>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
                             </div>
 
                             <div className='pl-lg-4 form-group'>

@@ -46,7 +46,7 @@ function RestaurantForm() {
             });
         } else {
             const formData = new FormData();
-            formData.append("event", "hotel");
+            formData.append("event", "restaurant");
             Array.from(validFiles).map(function (value, index) {
                 formData.append("picture", validFiles[index]);
             })
@@ -57,7 +57,7 @@ function RestaurantForm() {
                 let result = await axios.post(RESTAURANT_ADD_API, formData);
                 if (result.data.success) {
                     removeAllToasts()
-                    addToast("Hotels Added", {
+                    addToast("Restaurant Added", {
                         appearance: "success",
                         autoDismiss: true,
                     });
@@ -103,7 +103,7 @@ function RestaurantForm() {
                                             <input
                                                 name='name'
                                                 className='form-control'
-                                                placeholder='e.g: anapurna hotel'
+                                                placeholder='Enter restaurant name'
                                                 value={props.values.name}
                                                 onChange={props.handleChange}
                                             />
@@ -169,7 +169,7 @@ function RestaurantForm() {
                                                 cols="40"
                                                 name='desc'
                                                 className='form-control'
-                                                placeholder='Enter hotel description'
+                                                placeholder='Enter restaurant description'
                                                 value={props.values.desc}
                                                 onChange={props.handleChange}
                                             />
