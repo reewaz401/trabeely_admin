@@ -271,7 +271,7 @@ function PackageForm({ setActiveTab, setPackageId }) {
                                          
                                             <Col lg="4">
                                                 <FormGroup>
-                                                    <label className="form-control-label" for="changedate">
+                                                    <label className="form-control-label" htmlFor="changedate">
                                                         Are you flexible to let user change booking date  </label>
                                                     <span className="pl-lg-4">
                                                         <Field
@@ -339,8 +339,8 @@ function PackageForm({ setActiveTab, setPackageId }) {
                                                                                                 </CardTitle>
                                                                                             </div>
                                                                                             <Col className="col-auto">
-                                                                                                <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
-                                                                                                <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
+                                                                                                <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i className="fas fa-edit"></i></Button>
+                                                                                                <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i className="fas fa-eraser"></i></Button>
 
                                                                                             </Col>
                                                                                         </Row>

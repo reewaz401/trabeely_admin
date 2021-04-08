@@ -23,7 +23,7 @@ const HotelTab = () => {
     { id: "2", name: "Room", icon: "fas fa-edit text-green", visible: true }
   ]
   const actions = [
-    { icon: (<i class="fas fa-eye"></i>), path: "/app/hotel-view", name: "View Hotel List" },
+    { icon: (<i className="fas fa-eye"></i>), path: "/app/hotel-view", name: "View Hotel List" },
   ]
 
 

@@ -18,7 +18,7 @@ const PackagesContextProvider = ({ children }) => {
         getPackagesByUser();//for agent
       }
     } catch (error) {
-
+console.log(error)
     }
   }
 
@@ -26,9 +26,10 @@ const PackagesContextProvider = ({ children }) => {
     try {
       let result = await axios.get(AGENT_PACKAGE_API)
       if (result.data.success) {
-        setPackages(result.data.packages)
+        setPackages(result.data.data)
       }
     } catch (error) {
+      console.log(error)
       // console.error('Get All Packages Error: ', error)
     }
   }
@@ -37,7 +38,7 @@ const PackagesContextProvider = ({ children }) => {
     try {
       let result = await axios.get(PACKAGE_ALL_API)
       if (result.data.success) {
-        setPackages(result.data.packages)
+        setPackages(result.data.data)
 
       }
     } catch (error) {

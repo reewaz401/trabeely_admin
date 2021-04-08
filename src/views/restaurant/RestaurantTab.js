@@ -20,7 +20,7 @@ const RestaurantTab = () => {
     {id:"2",name:"Food Section",icon:"fas fa-plus-square text-green",visible: true},
 ]
   const actions =[
-    {icon:(<i class="fas fa-eye"></i>) ,path:"/app/restaurant-view",name:"View Restaurant List"},
+    {icon:(<i className="fas fa-eye"></i>) ,path:"/app/restaurant-view",name:"View Restaurant List"},
 ]
 
 

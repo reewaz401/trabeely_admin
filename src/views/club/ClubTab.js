@@ -17,7 +17,7 @@ const ClubTab = () => {
         { id: "1", name: "Add", icon: "fas fa-plus-square text-green",visible: false },
     ]
     const actions = [
-        { icon: (<i class="fas fa-eye"></i>), path: "/app/club-view", name: "View Club List" },
+        { icon: (<i className="fas fa-eye"></i>), path: "/app/club-view", name: "View Club List" },
     ]
     return (
         <>

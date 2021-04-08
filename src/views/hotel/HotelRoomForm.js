@@ -216,8 +216,8 @@ function HotelRoomForm({hotelId}) {
                                                                                     </CardTitle>
                                                                                 </div>
                                                                                 <Col className="col-auto">
-                                                                                    <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i class="fas fa-edit"></i></Button>
-                                                                                    <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i class="fas fa-eraser"></i></Button>
+                                                                                    <Button color="primary" tooltip="update" className="text-left my-2" onClick={() => onImageUpdate(index)}><i className="fas fa-edit"></i></Button>
+                                                                                    <Button color="danger" className="text-left my-2" onClick={() => onImageRemove(index)}><i className="fas fa-eraser"></i></Button>
 
                                                                                 </Col>
                                                                             </Row>

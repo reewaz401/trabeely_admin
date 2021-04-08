@@ -70,7 +70,7 @@ function PreRegisters() {
         return (
             <>
                 <div >
-                {row.status ? "" :<Button className="btn btn-success button" onClick={(e) => confirmAction(row._id)}><i class="fas fa-check-double"></i></Button>}
+                {row.status ? "" :<Button className="btn btn-success button" onClick={(e) => confirmAction(row._id)}><i className="fas fa-check-double"></i></Button>}
                 </div>
             </>
         );

@@ -59,8 +59,8 @@ function ClubDetails() {
         return (
             <>
                 <div style={{width:"200px"}}>
-                     <button className="btn-custominfo"   onClick={(e) => alert(rowIndex)}><i class="fas fa-eye"></i></button>
-                     <button className="btn-customdanger" onClick={(e) => confirmDelete(row._id, row.title)}><i class="fas fa-trash"></i></button>
+                     <button className="btn-custominfo"   onClick={(e) => alert(rowIndex)}><i className="fas fa-eye"></i></button>
+                     <button className="btn-customdanger" onClick={(e) => confirmDelete(row._id, row.title)}><i className="fas fa-trash"></i></button>
                 </div>
             </>
         );

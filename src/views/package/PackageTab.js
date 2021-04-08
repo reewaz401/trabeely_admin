@@ -23,7 +23,7 @@ const PackageTab = () => {
     { id: "2", name: "Itinerary", icon: "fas fa-edit text-green", visible: true }
   ]
   const actions = [
-    { icon: (<i class="fas fa-eye"></i>), path: "/app/package-view", name: "View Package List" },
+    { icon: (<i className="fas fa-eye"></i>), path: "/app/package-view", name: "View Package List" },
   ]
   return (
     <>

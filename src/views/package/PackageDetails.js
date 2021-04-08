@@ -88,7 +88,7 @@ function PackageDetails() {
         return (
             <div>
                 {!row.status ? (
-                    <Button className="btn btn-success" onClick={(e) => onPublish(e, row._id)}><i class="fas fa-share"></i></Button>
+                    <Button className="btn btn-success" onClick={(e) => onPublish(e, row._id)}><i className="fas fa-share"></i></Button>
                 ) : <span className="text-green">Published</span>}
             </div>
         );
@@ -104,8 +104,8 @@ function PackageDetails() {
         return (
             <>
                 <div style={{ width: "250px" }}>
-                    <button className="btn-custominfo" onClick={(e) => onUpdateChange(row._id, row)}><i class="fas fa-eye"></i></button>
-                    <button className="btn-customdanger" onClick={(e) => confirm(row._id, `Delete this ${row.title}`)}><i class="fas fa-trash"></i></button>
+                    <button className="btn-custominfo" onClick={(e) => onUpdateChange(row._id, row)}><i className="fas fa-eye"></i></button>
+                    <button className="btn-customdanger" onClick={(e) => confirm(row._id, `Delete this ${row.title}`)}><i className="fas fa-trash"></i></button>
                 </div>
             </>
         );

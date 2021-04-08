@@ -80,10 +80,10 @@ function BookingDetails() {
             <>
                 <div style={{ width: "200px" }}>
                     {!row.status ? (
-                        <button tooltip="Not confirm" className="btn-customdone" onClick={(e) => ""}><i class="fas fa-check-double"></i></button>
+                        <button tooltip="Not confirm" className="btn-customdone" onClick={(e) => ""}><i className="fas fa-check-double"></i></button>
                     ) : <span className="text-green">Confirmed</span>}
-                    <button className="btn-custominfo" onClick={(e) => alert(rowIndex)}><i class="fas fa-eye"></i></button>
-                    <button className="btn-customdanger" onClick={(e) => confirm(row._id, row.title)}><i class="fas fa-trash"></i></button>
+                    <button className="btn-custominfo" onClick={(e) => alert(rowIndex)}><i className="fas fa-eye"></i></button>
+                    <button className="btn-customdanger" onClick={(e) => confirm(row._id, row.title)}><i className="fas fa-trash"></i></button>
                 </div>
             </>
         );
