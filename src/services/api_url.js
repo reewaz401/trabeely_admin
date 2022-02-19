@@ -1,4 +1,5 @@
-const BASE_URI = process.env.REACT_APP_BASE_URI;
+// const BASE_URI = process.env.REACT_APP_BASE_URI;
+const BASE_URI = "http://localhost:8080/api";
 module.exports = {
     LOGIN_API: BASE_URI + "/auth/sign-in",
     REGISTER_API: BASE_URI + "/auth/sign-up",

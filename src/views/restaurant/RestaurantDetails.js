@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useContext } from 'react'
 
 import axios from '../../services/axios'
 import { RESTAURANT_DELETE_API } from '../../services/api_url'
-import DataTable from 'components/Datatable/DataTable'
 import { Card, CardBody, Button } from 'reactstrap'
 import { textFilter } from 'react-bootstrap-table2-filter';
 import NoActionBanner from 'components/Headers/NoActionBanner'
@@ -12,6 +11,7 @@ import 'moment-precise-range-plugin';
 import { RestaurantContext } from 'contexts/AgentRestaurantContext'
 import TitlePage from 'components/Headers/TitlePage'
 
+import DataTable from 'components/Datatable/DataTable'
 function RestaurantDetails() {
     const { addToast } = useToasts()
     const { restaurants } = useContext(RestaurantContext)
@@ -56,7 +56,6 @@ function RestaurantDetails() {
             });
         }
     }
-
     const actionList = (cell, row, rowIndex, formatExtraData) => {
         return (
             <>
